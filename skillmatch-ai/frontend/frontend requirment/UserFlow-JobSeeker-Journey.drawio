@@ -1,0 +1,95 @@
+<mxfile host="65bd71144e">
+    <diagram id="userflow-jobseeker" name="User Flow — Job Seeker Journey">
+        <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="3000" background="#FFF7FC" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="title" value="User Flow — Job Seeker Journey" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=22;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="234" y="20" width="700" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="js_1" value="🌐 Visit Landing Page" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="434" y="90" width="300" height="55" as="geometry"/>
+                </mxCell>
+                <mxCell id="js_dec1" value="Already&#10;Logged In?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="459" y="175" width="180" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="js_signup" value="/signup — Choose: Job Seeker" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="434" y="310" width="300" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="js_form" value="Fill: Name, Email, Password&#10;Role = Job Seeker → Submit" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="434" y="400" width="300" height="65" as="geometry"/>
+                </mxCell>
+                <mxCell id="js_acc" value="✅ Account Created&#10;→ /dashboard/profile" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="434" y="495" width="300" height="65" as="geometry"/>
+                </mxCell>
+                <mxCell id="js_profile" value="Complete Profile:&#10;Headline, Skills, Education, Experience" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="434" y="590" width="300" height="65" as="geometry"/>
+                </mxCell>
+                <mxCell id="js_resume_pg" value="/dashboard/resume&#10;Upload Resume PDF/DOCX (max 5MB)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="434" y="685" width="300" height="65" as="geometry"/>
+                </mxCell>
+                <mxCell id="js_queue" value="⚡ AI Parsing Queued (Bull + Redis)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="434" y="780" width="300" height="55" as="geometry"/>
+                </mxCell>
+                <mxCell id="js_gpt" value="🤖 GPT-4o-mini Extracts:&#10;Skills · Experience · Education · Summary" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="434" y="865" width="300" height="65" as="geometry"/>
+                </mxCell>
+                <mxCell id="js_analysis" value="📊 AI Analysis Shown in Dashboard" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="434" y="960" width="300" height="55" as="geometry"/>
+                </mxCell>
+                <mxCell id="js_jobs_pg" value="/dashboard/jobs — Browse Jobs&#10;with AI Match Score %" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="434" y="1045" width="300" height="65" as="geometry"/>
+                </mxCell>
+                <mxCell id="js_filter" value="Search + Filter + Sort&#10;by Highest AI Match" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="434" y="1140" width="300" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="js_jobdetail" value="View Job Detail:&#10;Description · Skills · AI Skill Gap" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="434" y="1230" width="300" height="65" as="geometry"/>
+                </mxCell>
+                <mxCell id="js_applyflow" value="Click 'Apply Now':&#10;Select Resume + Write Cover Letter" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="434" y="1325" width="300" height="65" as="geometry"/>
+                </mxCell>
+                <mxCell id="js_submitted" value="✅ Application Submitted&#10;AI Match Score Computed Async" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="434" y="1420" width="300" height="65" as="geometry"/>
+                </mxCell>
+                <mxCell id="js_track" value="/dashboard/applied — Track Status&#10;Status: applied → screening → decision" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="434" y="1515" width="300" height="65" as="geometry"/>
+                </mxCell>
+                <mxCell id="js_shortlist" value="✅ Shortlisted&#10;📧 Email Received" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="160" y="1640" width="200" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="js_reject" value="❌ Rejected&#10;📧 Rejection Email" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="434" y="1640" width="200" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="js_interview" value="🗓️ Interview Invite&#10;📧 Email Received" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="700" y="1640" width="200" height="60" as="geometry"/>
+                </mxCell>
+
+                <!-- Edges -->
+                <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;" parent="1" source="js_1" target="js_dec1" edge="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+                <mxCell id="e2" value="No" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;strokeColor=#82b366;" parent="1" source="js_dec1" target="js_signup" edge="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+                <mxCell id="e2b" value="Yes → skip to jobs" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;dashed=1;" parent="1" source="js_dec1" target="js_jobs_pg" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points"><mxPoint x="750" y="225"/><mxPoint x="750" y="1077"/></Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;" parent="1" source="js_signup" target="js_form" edge="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+                <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;" parent="1" source="js_form" target="js_acc" edge="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+                <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;" parent="1" source="js_acc" target="js_profile" edge="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+                <mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;" parent="1" source="js_profile" target="js_resume_pg" edge="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+                <mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;" parent="1" source="js_resume_pg" target="js_queue" edge="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+                <mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;" parent="1" source="js_queue" target="js_gpt" edge="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+                <mxCell id="e9" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;" parent="1" source="js_gpt" target="js_analysis" edge="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+                <mxCell id="e10" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;" parent="1" source="js_analysis" target="js_jobs_pg" edge="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+                <mxCell id="e11" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;" parent="1" source="js_jobs_pg" target="js_filter" edge="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+                <mxCell id="e12" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;" parent="1" source="js_filter" target="js_jobdetail" edge="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+                <mxCell id="e13" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;" parent="1" source="js_jobdetail" target="js_applyflow" edge="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+                <mxCell id="e14" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;" parent="1" source="js_applyflow" target="js_submitted" edge="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+                <mxCell id="e15" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;" parent="1" source="js_submitted" target="js_track" edge="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+                <mxCell id="e16" value="Shortlisted" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;strokeColor=#82b366;" parent="1" source="js_track" target="js_shortlist" edge="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+                <mxCell id="e17" value="Rejected" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;strokeColor=#b85450;" parent="1" source="js_track" target="js_reject" edge="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+                <mxCell id="e18" value="Interview" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;strokeColor=#d6b656;" parent="1" source="js_track" target="js_interview" edge="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

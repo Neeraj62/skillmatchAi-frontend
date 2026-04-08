@@ -1,0 +1,205 @@
+################################################################################
+# MVP 4 — RECRUITER DASHBOARD
+# AI-Based Recruitment & Skill-Matching Platform
+# Goal: Build the Recruiter workflow — job post management + candidate pipeline
+# Reference: Image shows: Job Post, Add New Job Post, Filter, Shortlisted
+################################################################################
+
+## PHASE 1: Database Schema — Jobs & Recruiter
+[ ] Create `recruiter_profiles` table:
+    [ ] user_id (FK → users.id, unique)
+    [ ] company_name (required)
+    [ ] company_logo_url
+    [ ] company_size (ENUM: 1-10, 11-50, 51-200, 201-1000, 1000+)
+    [ ] industry
+    [ ] company_website
+    [ ] company_description
+    [ ] location
+    [ ] created_at, updated_at
+[ ] Create `jobs` table:
+    [ ] id (UUID)
+    [ ] recruiter_id (FK → users.id)
+    [ ] title (required)
+    [ ] description (TEXT, required)
+    [ ] required_skills (JSON array of strings)
+    [ ] nice_to_have_skills (JSON array)
+    [ ] location (string or 'Remote')
+    [ ] job_type (ENUM: full-time, part-time, contract, internship, remote)
+    [ ] experience_level (ENUM: entry, mid, senior, lead, executive)
+    [ ] salary_min, salary_max (integer, monthly in INR)
+    [ ] salary_currency (default: INR)
+    [ ] is_salary_disclosed (boolean)
+    [ ] openings_count (integer, default 1)
+    [ ] application_deadline (date)
+    [ ] status (ENUM: draft, active, paused, closed)
+    [ ] views_count (integer, default 0)
+    [ ] applications_count (integer, computed or tracked)
+    [ ] created_at, updated_at
+[ ] Run DB migrations for all new tables
+
+## PHASE 2: Backend — Recruiter Profile APIs
+[ ] GET /api/recruiter/profile → return recruiter's company profile
+[ ] POST /api/recruiter/profile → create recruiter profile (one-time setup)
+[ ] PUT /api/recruiter/profile → update company profile
+[ ] PUT /api/recruiter/profile/logo → upload company logo (multipart)
+
+## PHASE 3: Backend — Job Posting APIs
+[ ] POST /api/recruiter/jobs → create new job posting
+    [ ] Validate all required fields
+    [ ] Status defaults to 'draft'
+    [ ] Return created job
+[ ] GET /api/recruiter/jobs → list all jobs posted by current recruiter
+    [ ] Query params: status, page, limit, sort (newest, most_applications)
+    [ ] Each item includes: title, status, applications_count, views_count, created_at
+[ ] GET /api/recruiter/jobs/:id → get single job detail
+[ ] PUT /api/recruiter/jobs/:id → update job details
+[ ] PATCH /api/recruiter/jobs/:id/status → change status (activate, pause, close)
+[ ] DELETE /api/recruiter/jobs/:id → delete draft job (cannot delete active/closed)
+[ ] GET /api/recruiter/jobs/:id/analytics → job analytics:
+    [ ] Total views, total applications, shortlisted count, avg match score
+
+## PHASE 4: Backend — Candidate Pipeline APIs
+[ ] GET /api/recruiter/jobs/:jobId/applicants → list all applicants for a job
+    [ ] Include: candidate name, email, match score, application status, applied_at, resume link
+    [ ] Query params: status, min_score, sort (match_score, applied_at), page, limit
+[ ] GET /api/recruiter/jobs/:jobId/applicants/:applicationId → get single applicant detail:
+    [ ] Candidate profile (name, contact, skills, experience, education)
+    [ ] Resume download URL
+    [ ] AI match score + detailed breakdown
+    [ ] Application status + timeline
+[ ] PATCH /api/recruiter/jobs/:jobId/applicants/:applicationId/status → update status:
+    [ ] Valid transitions: applied → screening → shortlisted / rejected
+    [ ] shortlisted → interview → offered / rejected
+    [ ] Notify candidate via email on status change
+[ ] POST /api/recruiter/jobs/:jobId/applicants/bulk-update → bulk update status:
+    [ ] Accept array of application IDs + new status
+    [ ] Useful for bulk shortlisting
+[ ] GET /api/recruiter/shortlisted → all shortlisted candidates across all jobs
+[ ] POST /api/recruiter/jobs/:jobId/applicants/:applicationId/notes → add recruiter note
+
+## PHASE 5: Frontend — Recruiter Dashboard Layout
+[ ] Create RecruiterDashboardLayout component:
+    [ ] Collapsible left sidebar with navigation items:
+        [ ] Dashboard (overview)
+        [ ] Job Posts
+        [ ] Add New Job Post
+        [ ] Shortlisted Candidates
+        [ ] Settings
+    [ ] Top header bar:
+        [ ] Company logo + name
+        [ ] Recruiter avatar + name (top right)
+        [ ] Notifications bell
+        [ ] Logout button
+    [ ] Main content area (child routes)
+[ ] Set up nested routes under /recruiter:
+    [ ] /recruiter → Dashboard overview (redirect)
+    [ ] /recruiter/overview
+    [ ] /recruiter/jobs
+    [ ] /recruiter/jobs/new
+    [ ] /recruiter/jobs/:id
+    [ ] /recruiter/jobs/:id/applicants
+    [ ] /recruiter/shortlisted
+    [ ] /recruiter/settings
+
+## PHASE 6: Frontend — Recruiter Overview (/recruiter/overview)
+[ ] Stats cards row:
+    [ ] Total Active Jobs
+    [ ] Total Applications Received
+    [ ] Total Shortlisted
+    [ ] Pending Review (applied status)
+[ ] Recent Job Posts table (latest 5):
+    [ ] Columns: Job Title, Status badge, Applications, Posted On, Actions
+[ ] Recent Applicants list (latest 5 applications across all jobs)
+[ ] Quick action buttons:
+    [ ] "+ Post New Job"
+    [ ] "View All Jobs"
+
+## PHASE 7: Frontend — Job Posts List (/recruiter/jobs)
+[ ] Filter bar:
+    [ ] Status filter: All | Draft | Active | Paused | Closed
+    [ ] Search by job title
+    [ ] Sort: Newest / Most Applications
+[ ] Jobs table/cards:
+    [ ] Columns: Job Title, Status, Applications, Shortlisted, Posted Date, Deadline, Actions
+    [ ] Status badge with color coding (draft=gray, active=green, paused=yellow, closed=red)
+    [ ] Actions dropdown per job:
+        [ ] View Applicants
+        [ ] Edit Job
+        [ ] Pause / Activate
+        [ ] Close Job
+        [ ] Delete (draft only)
+[ ] Empty state: "No jobs posted yet. Post your first job!" + CTA button
+
+## PHASE 8: Frontend — Add / Edit Job Post (/recruiter/jobs/new)
+[ ] Multi-step form wizard:
+    [ ] Step 1 — Job Basics:
+        [ ] Job Title (text, required)
+        [ ] Job Type (dropdown: Full-time, Part-time, Contract, Internship, Remote)
+        [ ] Experience Level (dropdown)
+        [ ] Number of Openings (number)
+        [ ] Application Deadline (date picker, must be future date)
+    [ ] Step 2 — Job Details:
+        [ ] Job Description (rich text editor: bold, italic, bullet points)
+        [ ] Required Skills (multi-tag input with search/autocomplete)
+        [ ] Nice-to-Have Skills (multi-tag input)
+    [ ] Step 3 — Compensation & Location:
+        [ ] Location (text or "Remote" checkbox)
+        [ ] Salary Range (min-max slider with toggle for "Don't disclose salary")
+    [ ] Step 4 — Review & Publish:
+        [ ] Preview card of the job post (as candidates will see it)
+        [ ] "Save as Draft" button
+        [ ] "Publish Now" button
+[ ] Progress indicator showing current step (1/4, 2/4...)
+[ ] "Back" and "Next" buttons with step validation
+[ ] Auto-save draft on step navigation
+
+## PHASE 9: Frontend — Applicant Pipeline (/recruiter/jobs/:id/applicants)
+[ ] Job info header bar: title, status, total applications, shortlisted count
+[ ] Filter & Sort bar:
+    [ ] Status filter tabs: All | Applied | Screening | Shortlisted | Interview | Offered | Rejected
+    [ ] Min Match Score slider (e.g., show only ≥ 70%)
+    [ ] Sort: Highest Match Score | Newest First | Name A-Z
+[ ] Applicants table/kanban view (toggle button):
+    [ ] Table view columns: Rank, Candidate Name, Match Score, Skills Match, Status, Applied On, Actions
+    [ ] Match Score shown as colored progress bar (red < 50%, orange 50-70%, green > 70%)
+    [ ] Actions per row: View Profile | Shortlist | Reject | Add Note
+[ ] Bulk action bar (appears on checkbox selection):
+    [ ] "Shortlist Selected" button
+    [ ] "Reject Selected" button
+[ ] Candidate Detail Drawer/Modal (on row click):
+    [ ] Candidate avatar, name, headline, contact
+    [ ] AI Match Score breakdown:
+        [ ] Skills matched (green chips)
+        [ ] Skills missing (red chips)
+        [ ] Overall score progress bar
+    [ ] Resume preview/download button
+    [ ] Work experience timeline
+    [ ] Education list
+    [ ] Status change dropdown (with save button)
+    [ ] Notes section (add/view recruiter notes)
+    [ ] Application status history timeline
+
+## PHASE 10: Frontend — Shortlisted Candidates (/recruiter/shortlisted)
+[ ] Aggregated list of all shortlisted candidates across all jobs
+[ ] Group by Job Title (accordion or tabs)
+[ ] Each candidate card: name, job applied for, match score, contact info
+[ ] Export button: "Download as CSV" (name, email, job, score)
+[ ] "Move to Interview" status update button per candidate
+
+## PHASE 11: Frontend — Recruiter Settings (/recruiter/settings)
+[ ] Company Profile form:
+    [ ] Company name, logo upload, description, industry, size, website
+[ ] Account settings:
+    [ ] Change email
+    [ ] Change password
+    [ ] Notification preferences (new application alerts, daily digest)
+
+## DELIVERABLES / ACCEPTANCE CRITERIA
+[ ] Recruiter can create, edit, publish, and close job posts
+[ ] Multi-step job form validates each step before proceeding
+[ ] Applicants are listed and sortable by AI match score
+[ ] Recruiter can filter applicants by status stage
+[ ] Recruiter can shortlist/reject individual or bulk candidates
+[ ] Status changes trigger email notifications to candidates
+[ ] Shortlisted candidates are aggregated across all jobs
+[ ] All recruiter pages are responsive on mobile/tablet

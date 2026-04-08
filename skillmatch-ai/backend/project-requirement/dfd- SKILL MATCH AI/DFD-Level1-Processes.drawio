@@ -1,0 +1,122 @@
+<mxfile host="65bd71144e">
+    <diagram id="dfd-level-1" name="DFD Level 1 — Core Processes">
+        <mxGraphModel dx="333" dy="290" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" background="#FFF7FC" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="title" value="DFD Level 1 — Core Process Decomposition" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=22;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="377" y="20" width="900" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="l1js" value="👤 Job Seeker" style="shape=mxgraph.flowchart.terminate;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="280" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="l1rec" value="🏢 Recruiter" style="shape=mxgraph.flowchart.terminate;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d6b656;fontSize=13;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="1460" y="280" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="oai_ext" value="🤖 OpenAI API" style="shape=mxgraph.flowchart.terminate;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="680" y="60" width="160" height="55" as="geometry"/>
+                </mxCell>
+                <mxCell id="s3_ext" value="☁️ AWS S3 / Cloudinary" style="shape=mxgraph.flowchart.terminate;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="380" y="60" width="180" height="55" as="geometry"/>
+                </mxCell>
+                <mxCell id="email_ext" value="📧 Resend Email" style="shape=mxgraph.flowchart.terminate;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="1160" y="670" width="160" height="55" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1" value="1.0&#10;Auth &amp; User Mgmt" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="700" y="230" width="200" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="p2" value="2.0&#10;Job Seeker&#10;Dashboard" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="180" y="430" width="200" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="p3" value="3.0&#10;Recruiter&#10;Dashboard" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d6b656;fontSize=13;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="1240" y="430" width="200" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="p4" value="4.0&#10;AI Resume&#10;Screening Engine" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="680" y="500" width="200" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="p5" value="5.0&#10;Notification &amp;&#10;Email Service" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="980" y="550" width="200" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="ds1" value="D1: Users / Profiles" style="shape=mxgraph.flowchart.stored_data;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#444444;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="680" y="380" width="200" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="ds2" value="D2: Jobs" style="shape=mxgraph.flowchart.stored_data;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#444444;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="180" y="680" width="200" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="ds3" value="D3: Resumes &amp; AI Results" style="shape=mxgraph.flowchart.stored_data;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#444444;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="440" y="580" width="200" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="ds4" value="D4: Applications" style="shape=mxgraph.flowchart.stored_data;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#444444;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="900" y="700" width="200" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="le1" value="Signup / Login" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;strokeColor=#82b366;strokeWidth=2;" parent="1" source="l1js" target="p1" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="le2" value="Signup / Login" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;strokeColor=#d6b656;strokeWidth=2;" parent="1" source="l1rec" target="p1" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="le4" value="Profile, Resume, Apply" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;strokeColor=#82b366;strokeWidth=2;" parent="1" source="l1js" target="p2" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="le5" value="Post Jobs, View Applicants" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;strokeColor=#d6b656;strokeWidth=2;" parent="1" source="l1rec" target="p3" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="le3" value="Store / Fetch User" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;" parent="1" source="p1" target="ds1" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="le9" value="Resume Metadata" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;" parent="1" source="p2" target="ds3" edge="1">
+                    <mxGeometry x="0.098" y="15" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="le7" value="Job Listings" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;" parent="1" source="p4" target="ds2" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="le8" value="Match Scores" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;" parent="1" source="p4" target="ds4" edge="1">
+                    <mxGeometry x="-0.4717" y="5" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="le6" value="Trigger AI Parse&#10;(on resume upload)" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;strokeColor=#9673a6;strokeWidth=2;" parent="1" source="p2" target="p4" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="le10" value="Status Change Email" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;strokeColor=#d6b656;strokeWidth=2;" parent="1" source="p3" target="p5" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="le11" value="Signup Welcome Email" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;strokeColor=#6c8ebf;strokeWidth=2;" parent="1" source="p1" target="p5" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="le12" value="Application Email" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;" parent="1" source="p2" target="p5" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="le13" value="Resume / Logo / Avatar" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;dashed=1;" parent="1" source="p2" target="s3_ext" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="le14" value="AI Prompts" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;dashed=1;" parent="1" source="p4" target="oai_ext" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="le15" value="Send Emails" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;dashed=1;" parent="1" source="p5" target="email_ext" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="leg_title" value="Process Color Key" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontStyle=1;fontSize=13;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="790" width="200" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="leg1" value="Auth &amp; User Mgmt" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="825" width="170" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="leg2" value="Job Seeker Dashboard" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" parent="1" vertex="1">
+                    <mxGeometry x="220" y="825" width="170" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="leg3" value="Recruiter Dashboard" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d6b656;fontSize=11;" parent="1" vertex="1">
+                    <mxGeometry x="400" y="825" width="170" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="leg4" value="AI Engine" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" parent="1" vertex="1">
+                    <mxGeometry x="580" y="825" width="170" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="leg5" value="Email / Notifications" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" parent="1" vertex="1">
+                    <mxGeometry x="760" y="825" width="170" height="30" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

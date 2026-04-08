@@ -1,0 +1,103 @@
+<mxfile host="65bd71144e">
+    <diagram id="sys-arch" name="System Architecture Flow">
+        <mxGraphModel dx="350" dy="565" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2800" pageHeight="1700" background="#FFF7FC" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="title" value="System Architecture Flow" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=26;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="400" y="20" width="2000" height="55" as="geometry"/>
+                </mxCell>
+                <mxCell id="client_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;opacity=40;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="90" width="2700" height="240" as="geometry"/>
+                </mxCell>
+                <mxCell id="client_lbl" value="🖥️  LAYER 1 — CLIENT  (Browser · Vercel)" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=15;fontStyle=1;fontColor=#23457a;" parent="1" vertex="1">
+                    <mxGeometry x="70" y="100" width="600" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="fe_pages" value="&lt;b&gt;React Pages &amp; Components&lt;/b&gt;&#10;&#10;Landing Page · Auth (Login / Signup)&#10;User Dashboard · Recruiter Dashboard&#10;Tailwind CSS · SCSS · Material UI" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=left;spacingLeft=12;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="70" y="140" width="610" height="160" as="geometry"/>
+                </mxCell>
+                <mxCell id="fe_zustand" value="&lt;b&gt;Zustand State Store&lt;/b&gt;&#10;&#10;auth · user · jobs · applications&#10;isAuthenticated · role&#10;Persisted to localStorage" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=left;spacingLeft=12;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="720" y="140" width="580" height="160" as="geometry"/>
+                </mxCell>
+                <mxCell id="fe_axios" value="&lt;b&gt;Axios + Interceptors&lt;/b&gt;&#10;&#10;Attach: Authorization: Bearer &lt;token&gt;&#10;Auto-refresh on 401 response&#10;On refresh fail → logout + redirect /login" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=left;spacingLeft=12;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="1350" y="140" width="600" height="160" as="geometry"/>
+                </mxCell>
+                <mxCell id="fe_router" value="&lt;b&gt;React Router v6&lt;/b&gt;&#10;&#10;ProtectedRoute component&#10;role-based redirects&#10;/dashboard/* · /recruiter/*" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=left;spacingLeft=12;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="2000" y="140" width="720" height="160" as="geometry"/>
+                </mxCell>
+                <mxCell id="arr_c2b" value="HTTPS REST API calls  ·  Authorization: Bearer &lt;JWT&gt;" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;strokeColor=#23457a;strokeWidth=3;fontStyle=1;fontSize=12;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" parent="1" source="client_bg" target="backend_bg" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arr_b2c" value="JSON Responses" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;dashed=1;strokeColor=#23457a;strokeWidth=2;fontSize=12;exitX=0.85;exitY=0;entryX=0.85;entryY=1;" parent="1" source="backend_bg" target="client_bg" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="backend_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;opacity=40;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="410" width="2700" height="300" as="geometry"/>
+                </mxCell>
+                <mxCell id="backend_lbl" value="⚙️  LAYER 2 — BACKEND API  (Node.js + Express · Render.com)" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=15;fontStyle=1;fontColor=#1a5c1a;" parent="1" vertex="1">
+                    <mxGeometry x="70" y="420" width="800" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="be_routes" value="&lt;b&gt;API Routes&lt;/b&gt;&#10;&#10;POST /api/auth/signup · login · logout&#10;GET  /api/user/profile · resumes · jobs&#10;POST /api/jobs/:id/apply&#10;GET  /api/recruiter/jobs/:id/applicants" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=10;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="70" y="460" width="400" height="220" as="geometry"/>
+                </mxCell>
+                <mxCell id="be_mw" value="&lt;b&gt;Middleware Stack&lt;/b&gt;&#10;&#10;authMiddleware (JWT verify)&#10;requireUser / requireRecruiter&#10;express-validator · rate-limit&#10;cors · helmet · morgan" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=10;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="490" y="460" width="390" height="220" as="geometry"/>
+                </mxCell>
+                <mxCell id="be_ctrl" value="&lt;b&gt;Controllers&lt;/b&gt;&#10;&#10;authController&#10;userController&#10;recruiterController&#10;jobController · applicationController" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=10;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="900" y="460" width="360" height="220" as="geometry"/>
+                </mxCell>
+                <mxCell id="be_svc" value="&lt;b&gt;Services&lt;/b&gt;&#10;&#10;aiService.js (OpenAI wrapper)&#10;storage.service.js (S3/Cloudinary)&#10;email.service.js (Resend)&#10;skills normalizer (alias map)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=10;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="1280" y="460" width="390" height="220" as="geometry"/>
+                </mxCell>
+                <mxCell id="be_queue" value="&lt;b&gt;Bull Queue Workers&lt;/b&gt;&#10;(Redis-backed · Async)&#10;&#10;resumeQueue → parse PDF/DOCX&#10;matchQueue  → compute AI scores&#10;emailQueue  → send notifications&#10;retry: 3x · exponential backoff" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;align=left;spacingLeft=10;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="1690" y="460" width="410" height="220" as="geometry"/>
+                </mxCell>
+                <mxCell id="be_swagger" value="&lt;b&gt;API Docs &amp; DevTools&lt;/b&gt;&#10;&#10;Swagger UI at /api/docs&#10;Postman Collection exported&#10;bull-board at /admin/queues&#10;morgan request logging" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;spacingLeft=10;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="2120" y="460" width="610" height="220" as="geometry"/>
+                </mxCell>
+                <mxCell id="arr_b2i" value="Read / Write · Upload / Fetch · Queue Jobs · Send Emails · AI API Calls" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;strokeColor=#555555;strokeWidth=3;fontStyle=1;fontSize=12;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" parent="1" source="backend_bg" target="infra_bg" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="infra_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;opacity=30;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="840" width="2700" height="270" as="geometry"/>
+                </mxCell>
+                <mxCell id="infra_lbl" value="🏗️  LAYER 3 — INFRASTRUCTURE &amp; EXTERNAL SERVICES" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=15;fontStyle=1;fontColor=#5a3b8a;" parent="1" vertex="1">
+                    <mxGeometry x="70" y="848" width="900" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="inf_mongo" value="&lt;b&gt;🗄️ MongoDB Atlas&lt;/b&gt;&#10;(Mongoose ODM)&#10;&#10;Collections:&#10;Users · CandidateProfiles&#10;RecruiterProfiles · Jobs&#10;Resumes · Applications&#10;AiUsageLogs · Notifications" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#444444;fontSize=11;align=left;spacingLeft=10;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="70" y="890" width="380" height="190" as="geometry"/>
+                </mxCell>
+                <mxCell id="inf_redis" value="&lt;b&gt;⚡ Upstash Redis&lt;/b&gt;&#10;(Bull Queue backend)&#10;&#10;Resume parse queue&#10;Match score queue&#10;Email send queue&#10;Free: 10K req/day&#10;Production: Upstash paid" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#444444;fontSize=11;align=left;spacingLeft=10;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="480" y="890" width="360" height="190" as="geometry"/>
+                </mxCell>
+                <mxCell id="inf_s3" value="&lt;b&gt;☁️ AWS S3 / Cloudinary&lt;/b&gt;&#10;(File Storage)&#10;&#10;/resumes/{userId}/{uuid}.pdf&#10;/avatars/{userId}/avatar.jpg&#10;/logos/{recruiterId}/logo.png&#10;Signed URLs for private access&#10;Free: 5GB · 20K GET/PUT" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#444444;fontSize=11;align=left;spacingLeft=10;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="870" y="890" width="400" height="190" as="geometry"/>
+                </mxCell>
+                <mxCell id="inf_oai" value="&lt;b&gt;🤖 OpenAI API&lt;/b&gt;&#10;Model: gpt-4o-mini&#10;&#10;Resume parsing → JSON output&#10;Job match scoring → 0–100&#10;Monthly budget cap: ₹2,500&#10;Cost: ~₹300–600/month est.&#10;Fallback on quota exceeded" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;align=left;spacingLeft=10;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="1300" y="890" width="400" height="190" as="geometry"/>
+                </mxCell>
+                <mxCell id="inf_email" value="&lt;b&gt;📧 Resend Email API&lt;/b&gt;&#10;(Nodemailer fallback)&#10;&#10;sendWelcomeEmail(user)&#10;sendApplicationConfirmation()&#10;sendStatusUpdateEmail()&#10;sendJobMatchNotification()&#10;Free: 3,000 emails/month" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;spacingLeft=10;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="1730" y="890" width="400" height="190" as="geometry"/>
+                </mxCell>
+                <mxCell id="inf_fallback" value="&lt;b&gt;🔁 Keyword Fallback Engine&lt;/b&gt;&#10;(no API cost)&#10;&#10;TF-IDF vectorisation&#10;Cosine similarity (ml-distance)&#10;Skills overlap ratio&#10;Triggered when:&#10;  • AI monthly quota exceeded&#10;  • OpenAI API unavailable" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=left;spacingLeft=10;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="2160" y="890" width="560" height="190" as="geometry"/>
+                </mxCell>
+                <mxCell id="bot_lbl" value="Supporting Infrastructure" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=15;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="70" y="1150" width="500" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="bot_auth" value="&lt;b&gt;🔒 Auth &amp; Security&lt;/b&gt;&#10;&#10;JWT access token (15 min)&#10;Refresh token (7 days, httpOnly cookie)&#10;bcrypt password hashing (saltRounds: 12)&#10;Rate limiting: 10 req / 15 min (auth endpoints)&#10;CORS whitelist: production domain only&#10;HTTPS enforced in production" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=left;spacingLeft=12;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="70" y="1190" width="600" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="bot_cicd" value="&lt;b&gt;🔁 CI/CD Pipeline&lt;/b&gt;&#10;&#10;GitHub Actions on push to main:&#10;  • Lint + unit tests must pass&#10;  • Block merge on any failure&#10;Vercel GitHub Integration:&#10;  • Auto-deploy frontend on push&#10;Render GitHub Integration:&#10;  • Auto-deploy backend on push" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=left;spacingLeft=12;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="710" y="1190" width="620" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="bot_monitor" value="&lt;b&gt;📡 Monitoring &amp; Logging&lt;/b&gt;&#10;&#10;UptimeRobot: ping /api/health every 5 min&#10;Email alert on downtime&#10;Sentry: error tracking in production&#10;morgan: request logs on Render&#10;Render logs dashboard: real-time view&#10;Target: API response &lt; 500ms (p95)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=left;spacingLeft=12;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="1380" y="1190" width="620" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="bot_hosting" value="&lt;b&gt;🌐 Hosting &amp; Domain&lt;/b&gt;&#10;&#10;Frontend → Vercel (free tier)&#10;  yourdomain.com → Vercel&#10;Backend  → Render.com (Node.js)&#10;  api.yourdomain.com → Render&#10;DB       → MongoDB Atlas M0 (free)&#10;Queue    → Upstash Redis (free tier)&#10;Domain   → ₹1,900 / year" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;align=left;spacingLeft=12;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="2050" y="1190" width="680" height="200" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

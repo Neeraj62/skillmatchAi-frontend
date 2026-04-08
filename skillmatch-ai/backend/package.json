@@ -1,0 +1,57 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "AI Job Web App is a platform connecting job seekers and recruiters with AI-powered resume screening, job matching, and streamlined recruitment workflows.",
+  "keywords": [
+    "ai-job-app",
+    "resume-screening",
+    "recruitment",
+    "job-matching",
+    "fullstack",
+    "mern",
+    "express",
+    "mongodb",
+    "nodejs",
+    "authentication",
+    "jwt",
+    "ai-powered"
+  ],
+  "homepage": "https://github.com/Ashukr321/Ai-job-web-app#readme",
+  "bugs": {
+    "url": "https://github.com/Ashukr321/Ai-job-web-app/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ashukr321/Ai-job-web-app.git"
+  },
+  "license": "ISC",
+  "author": "ck\",",
+  "type": "module",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon app.js",
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cloudinary": "^2.7.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.0",
+    "ejs": "^5.0.1",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.16.2",
+    "multer": "^2.0.1",
+    "multer-storage-cloudinary": "^4.0.0",
+    "nodemon": "^3.1.10",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10"
+  }
+}

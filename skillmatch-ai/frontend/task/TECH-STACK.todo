@@ -1,0 +1,48 @@
+# SKILL MATCH AI — Frontend Tech Stack
+# Reference: /frontend
+
+## Core Framework
+- [x] React ^19.0.0 — UI component library
+- [x] React DOM ^19.0.0 — DOM rendering for React
+
+## Build Tool
+- [x] Vite ^6.0.5 — fast dev server & bundler
+- [x] @vitejs/plugin-react ^4.3.4 — React support for Vite
+
+## Routing
+- [x] React Router DOM ^7.13.1 — client-side routing & navigation
+
+## Animation
+- [x] Framer Motion ^12.36.0 — animations & transitions
+
+## Notifications
+- [x] React Toastify ^11.0.5 — toast notification system
+
+## Styling
+- [x] Tailwind CSS ^4.0.0 — utility-first CSS framework
+- [x] @tailwindcss/vite ^4.0.0 — Tailwind Vite plugin integration
+- [x] SASS ^1.98.0 — SCSS/SASS preprocessor (used in *.module.scss files)
+- [x] globals ^15.14.0 — global CSS/JS environment definitions
+
+## Icons
+- [ ] React Icons — NOT installed yet (add if needed: npm install react-icons)
+
+## Linting & Types
+- [x] ESLint ^9.17.0 — code linting
+- [x] eslint-plugin-react-hooks ^5.0.0 — hooks linting rules
+- [x] eslint-plugin-react-refresh ^0.4.16 — fast refresh linting
+- [x] @types/react ^19.0.2 — React TypeScript types
+- [x] @types/react-dom ^19.0.2 — React DOM TypeScript types
+
+## Project Structure Reference
+# frontend/src/
+#   assets/         — images, fonts, global styles (*.scss)
+#   components/     — reusable UI components (navbar, sidebar)
+#   constants/      — static data (menus.js)
+#   context/        — React context (auth.jsx)
+#   Dashboard/      — jobSeeker & recruiter dashboard views
+#   pages/          — route-level pages
+#   routes/         — route definitions
+#   services/       — API service layer
+#   websiteComponents/ — landing page sections (navbar, footer, feature, testimonial)
+#   websitePages/   — public website pages

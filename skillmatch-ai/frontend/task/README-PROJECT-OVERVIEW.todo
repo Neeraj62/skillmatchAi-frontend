@@ -1,0 +1,98 @@
+################################################################################
+# AI JOB WEB APP — MASTER PROJECT OVERVIEW
+# AI-Based Recruitment & Skill-Matching Platform
+# Complete MVP Roadmap & Implementation Guide
+################################################################################
+
+## WHAT IS THIS PROJECT?
+An AI-powered recruitment platform that automates resume screening, candidate-job
+matching, and shortlisting. Recruiters post jobs; job seekers upload resumes; the AI
+automatically ranks candidates by relevance. Inspired by LinkedIn + Instahyre + AI.
+
+## TECH STACK SUMMARY
+  Frontend  : React.js (Vite) + Tailwind CSS + SCSS + Material UI → http://localhost:4000
+  Backend   : Node.js + Express.js → http://localhost:5000
+  AI Engine : Node.js AI service using OpenAI Node.js SDK (GPT-4o-mini)
+  Database  : MongoDB (Mongoose ODM) + Bull + Redis (async job queue)
+  Storage   : AWS S3 / Cloudinary (resumes, avatars, logos)
+  Email     : Resend API / Nodemailer
+
+## DOMAIN & HOSTING
+  Domain      : .com / .in / .tech → ₹1,900 (Namecheap/GoDaddy)
+  Frontend    : Vercel (free tier — connect GitHub repo, auto-deploy)
+  Backend     : Render.com (Web Service — Node.js, auto-deploy from GitHub)
+
+## USER ROLES (from image reference)
+  1. Job Seeker (User)  → Signs up/logs in as "user"
+  2. Recruiter          → Signs up/logs in as "recruiter"
+
+## SITE MAP (from image reference)
+  Landing Page (public):
+    ├── /          → Home (Jobs, About, Features, Testimonials, Footer)
+    ├── /login     → Login (choose: Job Seeker OR Recruiter)
+    └── /signup    → Signup (choose: Job Seeker OR Recruiter)
+
+  User Dashboard (protected, role: user):
+    ├── /dashboard/profile   → Profile & Settings
+    ├── /dashboard/resume    → Upload & View Resume + AI Analysis
+    ├── /dashboard/jobs      → Browse & Apply to Jobs
+    ├── /dashboard/applied   → Track Application Statuses
+    └── /dashboard/history   → Viewed/Saved Jobs History
+
+  Recruiter Dashboard (protected, role: recruiter):
+    ├── /recruiter/overview    → Stats Overview
+    ├── /recruiter/jobs        → All Job Posts
+    ├── /recruiter/jobs/new    → Add New Job Post
+    ├── /recruiter/jobs/:id/applicants → View & Filter Candidates
+    └── /recruiter/shortlisted → Shortlisted Candidates
+
+## MVP ROADMAP (implement in order)
+
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │  MVP  │ File                                │ Estimated Duration    │
+  ├───────┼──────────────────────────────────────────────────────────  ─┤
+  │  1    │ MVP1-foundation-landing-page.todo   │ Week 1-2              │
+  │  2    │ MVP2-auth-system.todo               │ Week 2-3              │
+  │  3    │ MVP3-user-dashboard.todo            │ Week 3-5              │
+  │  4    │ MVP4-recruiter-dashboard.todo       │ Week 5-7              │
+  │  5    │ MVP5-ai-resume-screening.todo       │ Week 7-9              │
+  │  6    │ MVP6-api-integration-costs.todo     │ Week 9-10             │
+  │  7    │ MVP7-documentation-deployment.todo  │ Week 10-12            │
+  └─────────────────────────────────────────────────────────────────────┘
+
+## PROJECT COST SUMMARY (from image reference)
+  Domain               : ₹1,900
+  Backend development  : ₹5,000
+  Frontend development : ₹4,000
+  Third-party APIs     : ₹3,500 (OpenAI, S3, Resend)
+  Documentation:
+    - API Integration  : Included in dev cost
+    - Project Book     : ₹500-1,000 (printing/binding)
+    - PPT Presentation : ₹0 (Canva free)
+  ─────────────────────────────
+  TOTAL                : ~₹15,400
+
+## KEY FEATURES IMPLEMENTED ACROSS MVPs
+  ✓ AI Resume Parsing (GPT-4o-mini extracts skills, experience, education)
+  ✓ AI Job Matching (0-100% match score per candidate per job)
+  ✓ Candidate Ranking (auto-rank applicants by AI score)
+  ✓ Role-Based Auth (JWT, Job Seeker vs Recruiter)
+  ✓ Resume Upload (PDF/DOCX, max 5MB, cloud storage)
+  ✓ Job Post Management (multi-step form, draft/publish)
+  ✓ Applicant Pipeline (filter by status, score, bulk actions)
+  ✓ Email Notifications (signup, application, status changes)
+  ✓ Responsive Design (mobile + tablet + desktop)
+  ✓ Swagger API Docs + Postman Collection
+
+## IMPORTANT NOTES
+  - "Apply" button on the landing page requires login/signup (from image)
+  - Limited job listings shown publicly on landing page (teaser)
+  - Full job access requires account
+  - AI costs capped at ₹2,500/month with fallback to keyword matching
+  - All file uploads stored on AWS S3 with signed URLs for private access
+
+## HOW TO START
+  1. Read MVP1-foundation-landing-page.todo → Set up project structure
+  2. Complete each MVP in order (1 → 7)
+  3. Mark tasks [ ] → [x] as you finish them
+  4. Each MVP builds on the previous — don't skip!

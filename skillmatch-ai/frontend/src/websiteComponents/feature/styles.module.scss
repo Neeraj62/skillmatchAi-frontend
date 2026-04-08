@@ -1,0 +1,271 @@
+@use "../../assets/css/global.styles.scss" as *;
+
+.section {
+  padding: 120px 24px;
+  background: $color-bg;
+  position: relative;
+  overflow: hidden;
+
+  // Subtle background pattern
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      radial-gradient(circle at 20% 20%, rgba($color-primary, 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba($color-accent, 0.03) 0%, transparent 50%);
+    pointer-events: none;
+  }
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+// Section Header
+.header {
+  text-align: center;
+  margin-bottom: 80px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.badge {
+  display: inline-block;
+  padding: 8px 16px;
+  background: rgba($color-primary, 0.1);
+  border: 1px solid rgba($color-primary, 0.2);
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 500;
+  color: $color-primary;
+  margin-bottom: 24px;
+  letter-spacing: 0.5px;
+}
+
+.title {
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 700;
+  color: $color-text;
+  margin: 0 0 20px 0;
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+.gradient {
+  background: linear-gradient(135deg, $color-primary 0%, $color-accent 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  font-size: 18px;
+  color: $color-text-secondary;
+  line-height: 1.7;
+  margin: 0;
+}
+
+// Feature Grid
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+
+  @media (max-width: $breakpoint-lg) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: $breakpoint-md) {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+// Feature Card
+.card {
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: 20px;
+  padding: 32px;
+  position: relative;
+  transition: all 0.3s ease;
+  animation: fadeInUp 0.6s ease forwards;
+  opacity: 0;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, $color-primary, $color-accent, transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  &:hover {
+    transform: translateY(-8px);
+    border-color: rgba($color-primary, 0.3);
+    box-shadow: 
+      0 20px 40px rgba(0, 0, 0, 0.3),
+      0 0 60px rgba($color-primary, 0.1);
+
+    &::before {
+      opacity: 1;
+    }
+
+    .iconWrapper {
+      transform: scale(1.1);
+    }
+
+    .iconGlow {
+      opacity: 1;
+    }
+
+    .cardArrow {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.iconWrapper {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  margin-bottom: 24px;
+  transition: transform 0.3s ease;
+}
+
+.icon {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba($color-primary, 0.2) 0%, rgba($color-accent, 0.1) 100%);
+  border-radius: 16px;
+  position: relative;
+  z-index: 1;
+
+  svg {
+    width: 28px;
+    height: 28px;
+    color: $color-primary;
+  }
+}
+
+.iconGlow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(circle, rgba($color-primary, 0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 0;
+}
+
+.cardTitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: $color-text;
+  margin: 0 0 12px 0;
+}
+
+.cardDescription {
+  font-size: 15px;
+  color: $color-text-secondary;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.cardArrow {
+  position: absolute;
+  bottom: 32px;
+  right: 32px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.3s ease;
+
+  svg {
+    width: 20px;
+    height: 20px;
+    color: $color-primary;
+  }
+}
+
+// Bottom CTA
+.cta {
+  margin-top: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  text-align: center;
+}
+
+.ctaText {
+  font-size: 18px;
+  color: $color-text-secondary;
+  margin: 0;
+}
+
+.ctaButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 32px;
+  background: linear-gradient(135deg, $color-primary 0%, $color-accent 100%);
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba($color-primary, 0.3);
+
+  svg {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba($color-primary, 0.4);
+
+    svg {
+      transform: translateX(4px);
+    }
+  }
+}
