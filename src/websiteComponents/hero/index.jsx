@@ -52,7 +52,7 @@ const Hero = () => {
             </div>
             <div className={styles.hero__statDivider} />
             <div className={styles.hero__stat}>
-              <span className={styles.hero__statValue}>98%</span>
+              <span className={styles.hero__statValue}>90%</span>
               <span className={styles.hero__statLabel}>Match Accuracy</span>
             </div>
             <div className={styles.hero__statDivider} />
@@ -83,11 +83,11 @@ const Hero = () => {
                   </svg>
                 </div>
                 <div className={styles.hero__matchInfo}>
-                  <span className={styles.hero__matchName}>Sarah Chen</span>
-                  <span className={styles.hero__matchRole}>Senior Engineer</span>
+                  <span className={styles.hero__matchName}>Neeraj Kumar</span>
+                  <span className={styles.hero__matchRole}>Full-Stack Dev</span>
                 </div>
                 <div className={styles.hero__matchScore}>
-                  <span>98%</span>
+                  <span>92%</span>
                   match
                 </div>
               </div>
@@ -99,11 +99,11 @@ const Hero = () => {
                   </svg>
                 </div>
                 <div className={styles.hero__matchInfo}>
-                  <span className={styles.hero__matchName}>James Wilson</span>
-                  <span className={styles.hero__matchRole}>Full Stack Dev</span>
+                  <span className={styles.hero__matchName}>Mitrabhanu</span>
+                  <span className={styles.hero__matchRole}>Frontend Dev</span>
                 </div>
                 <div className={styles.hero__matchScore}>
-                  <span>94%</span>
+                  <span>82%</span>
                   match
                 </div>
               </div>
@@ -115,11 +115,11 @@ const Hero = () => {
                   </svg>
                 </div>
                 <div className={styles.hero__matchInfo}>
-                  <span className={styles.hero__matchName}>Emily Park</span>
+                  <span className={styles.hero__matchName}>Jai Kumar</span>
                   <span className={styles.hero__matchRole}>DevOps Engineer</span>
                 </div>
                 <div className={styles.hero__matchScore}>
-                  <span>91%</span>
+                  <span>80%</span>
                   match
                 </div>
               </div>
