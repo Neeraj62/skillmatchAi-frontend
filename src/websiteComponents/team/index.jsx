@@ -4,6 +4,8 @@ import mitrabhanuImg from "../../assets/images/teams/MITRABHANU.jpeg";
 import jaiImg from "../../assets/images/teams/jai.jpeg";
 import sovanImg from "../../assets/images/teams/sovan.jpeg";
 import sumitImg from "../../assets/images/teams/sumit.jpeg";
+import adityaImg from "../../assets/images/teams/aditya prasad.jpeg";
+import ommImg from "../../assets/images/teams/om kumar bag.jpeg";
 import styles from "./styles.module.scss";
 
 
@@ -40,7 +42,7 @@ const teamMembers = [
     id: 5,
     name: "ADITYA PRASAD SWAIN",
     role: "2201309001",
-    avatar: "AS",
+    avatar: adityaImg,
     color: "#DC2626"
   },
   {
@@ -54,7 +56,7 @@ const teamMembers = [
     id: 7,
     name: "OMM KUMAR BAG",
     role: "2201309010",
-    avatar: "OB",
+    avatar: ommImg,
     color: "#0D9488"
   }
 ];
