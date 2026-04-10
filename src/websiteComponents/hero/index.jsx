@@ -52,7 +52,7 @@ const Hero = () => {
             </div>
             <div className={styles.hero__statDivider} />
             <div className={styles.hero__stat}>
-              <span className={styles.hero__statValue}>90%</span>
+              <span className={styles.hero__statValue}>92%</span>
               <span className={styles.hero__statLabel}>Match Accuracy</span>
             </div>
             <div className={styles.hero__statDivider} />
@@ -99,11 +99,11 @@ const Hero = () => {
                   </svg>
                 </div>
                 <div className={styles.hero__matchInfo}>
-                  <span className={styles.hero__matchName}>Mitrabhanu</span>
+                  <span className={styles.hero__matchName}>Jai Kumar</span>
                   <span className={styles.hero__matchRole}>Frontend Dev</span>
                 </div>
                 <div className={styles.hero__matchScore}>
-                  <span>82%</span>
+                  <span>84%</span>
                   match
                 </div>
               </div>
@@ -115,8 +115,8 @@ const Hero = () => {
                   </svg>
                 </div>
                 <div className={styles.hero__matchInfo}>
-                  <span className={styles.hero__matchName}>Jai Kumar</span>
-                  <span className={styles.hero__matchRole}>DevOps Engineer</span>
+                  <span className={styles.hero__matchName}>Sumit</span>
+                  <span className={styles.hero__matchRole}>Backend Dev</span>
                 </div>
                 <div className={styles.hero__matchScore}>
                   <span>80%</span>

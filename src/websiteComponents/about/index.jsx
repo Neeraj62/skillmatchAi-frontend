@@ -131,7 +131,7 @@ const About = () => {
                     <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
                   </svg>
                 </div>
-                <span>90% Accuracy</span>
+                <span>92% Accuracy</span>
               </div>
 
               <div className={`${styles.dataCard} ${styles.dataCard3}`}>
