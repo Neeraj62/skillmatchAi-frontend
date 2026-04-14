@@ -4,7 +4,7 @@ import styles from "./styles.module.scss";
 const testimonials = [
   {
     id: 1,
-    name: "Ms. Jhunurani Patel",
+    name: "Mrs. Jhunurani Patel",
     role: "Assistant Professor",
     company: "Academic Mentor",
     avatar: "JP",
@@ -14,9 +14,9 @@ const testimonials = [
   },
   {
     id: 2,
-    name: "Ms. Sasmita Jaypuria",
-    role: "Assistant Professor",
-    company: "Academic Mentor",
+    name: "Ms. Samita Jaipuria",
+    role: "Academic Mentor",
+    company: "",
     avatar: "SJ",
     rating: 5,
     quote: "The AI-driven skill mapping is incredibly precise. It helps us identify students' true potential and connects them with roles where they can truly excel and innovate.",
@@ -24,9 +24,9 @@ const testimonials = [
   },
   {
     id: 3,
-    name: "Ms. Rukhshar Parvin",
-    role: "Assistant Professor",
-    company: "Academic Mentor",
+    name: "Ms. Rukhshar Parveen",
+    role: "Academic Mentor",
+    company: "",
     avatar: "RP",
     rating: 5,
     quote: "Managing student profiles and tracking their industry readiness has never been easier. This platform bridges the gap between classroom theory and real-world application.",
@@ -97,9 +97,6 @@ const Testimonials = () => {
                   <p className={styles.role}>{testimonial.role}</p>
                   <p className={styles.company}>{testimonial.company}</p>
                 </div>
-                {testimonial.type === 'recruiter' && (
-                  <span className={styles.typeBadge}>Recruiter</span>
-                )}
               </div>
             </div>
           ))}
