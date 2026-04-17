@@ -80,7 +80,7 @@ const Footer = () => {
                   </a>
                 </li>
                 <li>
-                  <a href="tel:+918260022107">+91 8260022107</a>
+                  <a href="tel:+917906503640">+91 7906503640</a>
                 </li>
                 <li>
                   <a href="mailto:info@bdcet.in">info@bdcet.in</a>
@@ -114,7 +114,10 @@ const Footer = () => {
 
         {/* Bottom Bar */}
         <div className={styles.footer__bottom}>
-          <p>&copy; {currentYear} SkillMatch AI. All rights reserved.</p>
+          <div className={styles.footer__copyright}>
+            <p>&copy; {currentYear} SkillMatch AI. All rights reserved.</p>
+            <p className={styles.footer__developer}>Developed by Neeraj Kumar</p>
+          </div>
           <div className={styles.footer__bottomLinks}>
             <a href="#">Privacy</a>
             <span>·</span>
