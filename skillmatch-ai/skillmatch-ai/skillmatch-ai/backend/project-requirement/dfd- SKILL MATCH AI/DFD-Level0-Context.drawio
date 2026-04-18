@@ -1,0 +1,118 @@
+<mxfile host="65bd71144e">
+    <diagram id="dfd-level-0" name="DFD Level 0 — Context Diagram">
+        <mxGraphModel dx="292" dy="471" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" background="#FFF7FC" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="title" value="DFD Level 0 — Context Diagram" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=24;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="327" y="20" width="1000" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="sys" value="🖥️ AI JOB WEB APP&#10;Node.js + Express&#10;React + Vite" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=16;fontStyle=1;arcSize=10;" parent="1" vertex="1">
+                    <mxGeometry x="627" y="459" width="300" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="js" value="👤 Job Seeker" style="shape=mxgraph.flowchart.terminate;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="60" y="489" width="180" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="rec" value="🏢 Recruiter" style="shape=mxgraph.flowchart.terminate;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d6b656;fontSize=14;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="1414" y="489" width="180" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="oai" value="🤖 OpenAI API&#10;(GPT-4o-mini)" style="shape=mxgraph.flowchart.terminate;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13;" parent="1" vertex="1">
+                    <mxGeometry x="260" y="80" width="200" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="s3" value="☁️ AWS S3 /&#10;Cloudinary" style="shape=mxgraph.flowchart.terminate;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13;" parent="1" vertex="1">
+                    <mxGeometry x="1100" y="80" width="200" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="email" value="📧 Resend /&#10;Nodemailer" style="shape=mxgraph.flowchart.terminate;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13;" parent="1" vertex="1">
+                    <mxGeometry x="1250" y="280" width="200" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="redis" value="⚡ Redis / Upstash&#10;(Bull Queue)" style="shape=mxgraph.flowchart.terminate;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13;" parent="1" vertex="1">
+                    <mxGeometry x="260" y="820" width="200" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="mongo" value="🗄️ MongoDB Atlas" style="shape=mxgraph.flowchart.terminate;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13;" parent="1" vertex="1">
+                    <mxGeometry x="1100" y="820" width="200" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="e1" value="Signup / Login&#10;Upload Resume&#10;Apply to Jobs" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;exitX=0;exitY=0.35;exitPerimeter=0;entryX=1;entryY=0.35;entryPerimeter=0;strokeColor=#82b366;strokeWidth=2;fontStyle=1;" parent="1" source="js" target="sys" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e2" value="Match Scores&#10;AI Analysis Results" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;dashed=1;exitX=0;exitY=0.65;exitPerimeter=0;entryX=1;entryY=0.65;entryPerimeter=0;strokeColor=#82b366;strokeWidth=2;" parent="1" source="sys" target="js" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e3" value="Post Jobs&#10;View Applicants&#10;Shortlist" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;exitX=1;exitY=0.35;exitPerimeter=0;entryX=0;entryY=0.35;entryPerimeter=0;strokeColor=#d6b656;strokeWidth=2;fontStyle=1;" parent="1" source="rec" target="sys" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e4" value="Ranked Applicants&#10;Candidate Profiles" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;dashed=1;exitX=1;exitY=0.65;exitPerimeter=0;entryX=0;entryY=0.65;entryPerimeter=0;strokeColor=#d6b656;strokeWidth=2;" parent="1" source="sys" target="rec" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e5" value="Resume Parse &amp; Job Match Prompts" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;exitX=0.25;exitY=0;exitPerimeter=0;entryX=0.5;entryY=1;entryPerimeter=0;strokeColor=#9673a6;strokeWidth=2;fontStyle=1;align=left;" parent="1" source="sys" target="oai" edge="1">
+                    <mxGeometry x="-0.1" relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="702" y="200"/>
+                            <mxPoint x="360" y="200"/>
+                        </Array>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e6" value="Skills, Scores &amp; Summaries" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;dashed=1;exitX=1;exitY=1;exitPerimeter=0;entryX=0.75;entryY=0;entryPerimeter=0;strokeColor=#9673a6;strokeWidth=2;align=right;" parent="1" source="oai" target="sys" edge="1">
+                    <mxGeometry x="0.1" relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="510" y="200"/>
+                            <mxPoint x="777" y="200"/>
+                        </Array>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e7" value="Upload Files&#10;(Resumes, Logos, Avatars)" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;exitX=0.75;exitY=0;exitPerimeter=0;entryX=0.5;entryY=1;entryPerimeter=0;strokeColor=#9673a6;strokeWidth=2;fontStyle=1;align=right;" parent="1" source="sys" target="s3" edge="1">
+                    <mxGeometry x="-0.1" relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="852" y="200"/>
+                            <mxPoint x="1200" y="200"/>
+                        </Array>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e8" value="Signed URLs / Download" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;dashed=1;exitX=0;exitY=1;exitPerimeter=0;entryX=1;entryY=0;entryPerimeter=0;strokeColor=#9673a6;strokeWidth=2;align=left;" parent="1" source="s3" target="sys" edge="1">
+                    <mxGeometry x="0.1" relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1050" y="240"/>
+                            <mxPoint x="977" y="240"/>
+                        </Array>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e9" value="Send Emails" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;exitX=1;exitY=0.2;exitPerimeter=0;entryX=0;entryY=0.5;entryPerimeter=0;strokeColor=#9673a6;strokeWidth=2;" parent="1" source="sys" target="email" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1100" y="485"/>
+                            <mxPoint x="1100" y="315"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e10" value="Queue AI Jobs (Async)" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;exitX=0.25;exitY=1;exitPerimeter=0;entryX=0.5;entryY=0;entryPerimeter=0;strokeColor=#9673a6;strokeWidth=2;" parent="1" source="sys" target="redis" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="702" y="760"/>
+                            <mxPoint x="360" y="760"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e11" value="Read / Write All Data" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;exitX=0.75;exitY=1;exitPerimeter=0;entryX=0.5;entryY=0;entryPerimeter=0;strokeColor=#9673a6;strokeWidth=2;" parent="1" source="sys" target="mongo" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="852" y="760"/>
+                            <mxPoint x="1200" y="760"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="leg" value="&lt;b&gt;Legend&lt;/b&gt;&lt;br&gt;── Solid arrow = Data sent TO system or entity&lt;br&gt;╌╌ Dashed arrow = Data returned FROM system" style="text;html=1;strokeColor=#cccccc;fillColor=#f9f9f9;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="60" y="930" width="380" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="ann_human" value="External Actors (Humans)" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontStyle=2;fontSize=12;fontColor=#555555;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="570" width="220" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="ann_human2" value="External Actors (Humans)" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontStyle=2;fontSize=12;fontColor=#555555;" parent="1" vertex="1">
+                    <mxGeometry x="1394" y="570" width="220" height="30" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

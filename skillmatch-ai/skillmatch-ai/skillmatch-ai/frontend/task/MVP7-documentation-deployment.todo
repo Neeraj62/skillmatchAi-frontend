@@ -1,0 +1,240 @@
+################################################################################
+# MVP 7 — TESTING, DOCUMENTATION & DEPLOYMENT
+# AI-Based Recruitment & Skill-Matching Platform
+# Goal: Finalize the platform — test everything, document it, and deploy to prod
+# Reference: Documentation costs — API integration guide, project book, PPT
+################################################################################
+
+## PHASE 1: Backend Testing (Node.js)
+[ ] Set up testing framework:
+    [ ] Jest + Supertest (HTTP integration tests)
+    [ ] Create /tests folder with /unit and /integration subfolders
+[ ] Write unit tests:
+    [ ] Auth service: signup, login, JWT token generation, bcrypt hashing
+    [ ] Resume parser: PDF/DOCX text extraction, AI parse response validation
+    [ ] Match score engine: scoring weights, edge cases (no skills, 100% match)
+    [ ] Job service: create, update, fetch jobs from MongoDB
+[ ] Write integration tests (API route tests):
+    [ ] POST /api/auth/signup → 201, 409 (duplicate email), 400 (validation fail)
+    [ ] POST /api/auth/login → 200, 401 (wrong password), 404 (user not found)
+    [ ] POST /api/user/resumes → 201 (uploaded), 400 (invalid type), 413 (too large)
+    [ ] POST /api/jobs/:id/apply → 201, 403 (unauthenticated), 409 (already applied)
+    [ ] GET /api/recruiter/jobs/:id/applicants → 200 with sorted list by match score
+[ ] Achieve minimum 70% code coverage on core business logic
+[ ] Set up test MongoDB database:
+    [ ] Use mongodb-memory-server for in-memory MongoDB in unit tests
+    [ ] Use separate MongoDB Atlas test cluster for integration tests
+
+## PHASE 2: Frontend Testing
+[ ] Set up Vitest + React Testing Library
+[ ] Write component tests:
+    [ ] SignupPage: renders form, validates inputs, submits correctly
+    [ ] LoginPage: renders form, displays error on invalid credentials
+    [ ] JobCard: renders job data, shows correct match score badge
+    [ ] ResumeUpload: drag-and-drop works, shows progress, handles errors
+    [ ] ProtectedRoute: redirects unauthenticated users to /login
+[ ] Write end-to-end (E2E) tests with Playwright:
+    [ ] Signup as Job Seeker flow (form → submit → dashboard redirect)
+    [ ] Upload resume and view AI analysis results
+    [ ] Apply to a job and see it in "Applied" section
+    [ ] Recruiter: create a job post and view applicants
+    [ ] Recruiter: shortlist a candidate
+[ ] Set up E2E tests to run against staging environment
+
+## PHASE 3: Performance & Security Audit
+[ ] Run Lighthouse audit on landing page:
+    [ ] Target: Performance ≥ 90, Accessibility ≥ 90, SEO ≥ 90
+    [ ] Fix any failing audits
+[ ] Optimize frontend bundle:
+    [ ] Code splitting (lazy load dashboard routes)
+    [ ] Image optimization (WebP format, lazy loading)
+    [ ] Gzip/Brotli compression (via CDN)
+[ ] Backend security checklist:
+    [ ] All inputs validated and sanitized (prevent SQL injection, XSS)
+    [ ] Passwords hashed with bcrypt (never stored plain text)
+    [ ] Rate limiting on auth, upload, and AI endpoints
+    [ ] CORS whitelist: only production domain allowed
+    [ ] Secrets never hardcoded (all in .env)
+    [ ] HTTPS enforced (no HTTP in production)
+    [ ] File upload: validate MIME type (not just extension), scan for malware if needed
+    [ ] JWT tokens expire appropriately
+[ ] Load testing with k6 or Artillery:
+    [ ] Simulate 100 concurrent users
+    [ ] Verify API response < 500ms under load
+
+## PHASE 4: API Documentation
+[ ] Set up Swagger/OpenAPI docs (swagger-jsdoc + swagger-ui-express):
+    [ ] Auto-generate from JSDoc/docstring annotations
+    [ ] Available at: /api/docs (development only)
+[ ] Document all API endpoints:
+    [ ] Auth APIs (signup, login, logout, refresh, /me)
+    [ ] User APIs (profile, resume, applications)
+    [ ] Recruiter APIs (jobs, applicants, shortlist)
+    [ ] AI APIs (parse resume, match score)
+    [ ] Public APIs (job listings, skills autocomplete)
+[ ] Include in each endpoint doc:
+    [ ] Method + path
+    [ ] Auth required? (Bearer token role)
+    [ ] Request body schema (JSON example)
+    [ ] Response schema (JSON example)
+    [ ] Error responses (400, 401, 403, 404, 409, 500)
+[ ] Export Postman collection:
+    [ ] Create Postman workspace with environment variables
+    [ ] Add all API requests with example request/response bodies
+    [ ] Export as `API-Collection.json` and commit to repo
+[ ] Create API Integration Guide document (`docs/API-Integration-Guide.md`):
+    [ ] Authentication flow (how to get + use JWT tokens)
+    [ ] File upload instructions (multipart form-data)
+    [ ] AI API usage and limits
+    [ ] Error handling reference table
+    [ ] Rate limiting headers explanation
+    [ ] Code examples (JavaScript fetch, Python requests)
+
+## PHASE 5: Project Documentation (for Submission / Book Binding)
+[ ] Create `docs/` folder in project root with:
+    [ ] README.md (setup + run guide)
+    [ ] ARCHITECTURE.md (system design overview)
+    [ ] API-Integration-Guide.md
+    [ ] DEPLOYMENT.md (how to deploy to production)
+    [ ] TECH-STACK.md (list of all technologies + why chosen)
+[ ] Write ARCHITECTURE.md with:
+    [ ] System diagram (mermaid chart or image):
+        [ ] Frontend (React + Tailwind + MUI) → Backend API (Node.js + Express)
+        [ ] Backend → MongoDB Atlas (Mongoose)
+        [ ] Backend → OpenAI API (GPT-4o-mini) via Node.js SDK
+        [ ] Backend → File Storage (AWS S3 / Cloudinary)
+        [ ] Backend → Email (Resend/Nodemailer)
+        [ ] Bull Worker Jobs consuming Redis queue
+    [ ] Data flow description: User uploads resume → Queue → AI Parser → Score computed → Displayed
+    [ ] Database ER diagram (using dbdiagram.io or Mermaid)
+    [ ] Security design: JWT flow, refresh token strategy, role-based access
+[ ] Write Project Book (for binding / printed submission):
+    [ ] Chapter 1: Introduction & Problem Statement
+        [ ] Problem: Manual resume screening is slow, biased, inefficient
+        [ ] Solution: AI-powered skill matching platform
+        [ ] Objectives
+        [ ] Scope and limitations
+    [ ] Chapter 2: Market Research & Feasibility
+        [ ] Target users: Recruiters + Job Seekers
+        [ ] Competitors: LinkedIn, Naukri, Instahyre
+        [ ] Competitive advantages of this platform
+        [ ] Technical feasibility
+        [ ] Financial feasibility (cost breakdown, ROI)
+    [ ] Chapter 3: System Design
+        [ ] Architecture diagram
+        [ ] Database ER diagram
+        [ ] User flow diagrams
+        [ ] Wireframes / UI designs
+    [ ] Chapter 4: Implementation Details
+        [ ] Tech stack overview
+        [ ] Frontend implementation
+        [ ] Backend implementation
+        [ ] AI service implementation
+        [ ] Third-party API integrations
+    [ ] Chapter 5: Testing & Results
+        [ ] Test cases table
+        [ ] Test results
+        [ ] AI match accuracy evaluation
+    [ ] Chapter 6: Deployment & Cost Analysis
+        [ ] Production deployment steps
+        [ ] Cost breakdown table
+        [ ] Future enhancements roadmap
+    [ ] References section
+
+## PHASE 6: PPT Presentation
+[ ] Create 15-20 slide presentation covering:
+    [ ] Slide 1: Title + Team name
+    [ ] Slide 2: Problem Statement (statistics on hiring inefficiency)
+    [ ] Slide 3: Solution Overview (platform pitch)
+    [ ] Slide 4: Market Opportunity (target users, market size)
+    [ ] Slide 5: Key Features (6 cards)
+    [ ] Slide 6: System Architecture diagram
+    [ ] Slide 7: AI Resume Screening demo (screenshot + flow)
+    [ ] Slide 8: User Dashboard demo (screenshot)
+    [ ] Slide 9: Recruiter Dashboard demo (screenshot)
+    [ ] Slide 10: AI Skill Match Score demo (screenshot + explanation)
+    [ ] Slide 11: Database Design (simplified ER diagram)
+    [ ] Slide 12: Tech Stack (logos)
+    [ ] Slide 13: API Integrations (logos + descriptions)
+    [ ] Slide 14: Project Cost Breakdown (table)
+    [ ] Slide 15: Results & Testing Summary
+    [ ] Slide 16: Future Roadmap
+    [ ] Slide 17: Q&A
+[ ] Use Canva, Google Slides, or PowerPoint
+[ ] Brand colors consistent with the web app
+
+## PHASE 7: Production Deployment
+[ ] Set up staging environment (mirror of production):
+    [ ] Same hosting, separate DB, .env.staging
+[ ] Deploy backend — Render.com:
+    [ ] Create "Web Service" on Render (render.com)
+    [ ] Connect GitHub repo → select backend/ folder
+    [ ] Environment: Node
+    [ ] Build command: `npm install`
+    [ ] Start command: `node server.js`
+    [ ] Add all environment variables in Render dashboard:
+        [ ] MONGODB_URI (MongoDB Atlas connection string)
+        [ ] JWT_SECRET, REFRESH_TOKEN_SECRET
+        [ ] OPENAI_API_KEY
+        [ ] AWS / Cloudinary storage credentials
+        [ ] RESEND_API_KEY, EMAIL_FROM
+        [ ] REDIS_URL (Upstash Redis)
+        [ ] FRONTEND_URL (Vercel URL for CORS)
+    [ ] Enable auto-deploy on push to main
+    [ ] Verify health check: GET /api/health → 200 OK
+[ ] Deploy frontend — Vercel:
+    [ ] Connect GitHub repo to Vercel (vercel.com)
+    [ ] Set root directory to frontend/ in project settings
+    [ ] Add env var: VITE_API_URL=https://your-api.onrender.com
+    [ ] Add custom domain (yourdomain.com) in Vercel
+    [ ] Enable auto-deploy on push to main (via Vercel GitHub integration)
+[ ] Deploy Bull workers (Redis job queue):
+    [ ] Bull workers run as part of the Node.js backend process on Render
+    [ ] Ensure REDIS_URL (Upstash) is set in Render env vars
+    [ ] Verify resume parsing queue processes jobs after upload
+[ ] Configure DNS:
+    [ ] yourdomain.com → Vercel frontend
+    [ ] api.yourdomain.com → backend (CNAME or A record)
+[ ] Enable HTTPS (auto via Vercel + Render Let's Encrypt)
+[ ] Run full smoke test on production:
+    [ ] Sign up as user → upload resume → apply to job → see match score ✓
+    [ ] Sign up as recruiter → post job → view applicants → shortlist ✓
+    [ ] Landing page loads < 3 seconds ✓
+    [ ] AI analysis completes within 60 seconds ✓
+[ ] Set up uptime monitoring (UptimeRobot free tier):
+    [ ] Monitor /api/health every 5 minutes
+    [ ] Email alert on downtime
+
+## PHASE 8: CI/CD Pipeline Setup
+[ ] Create `.github/workflows/ci.yml`:
+    [ ] Trigger on PR to main branch
+    [ ] Steps: checkout, install deps, run lint, run unit tests
+    [ ] Block merge if any step fails
+[ ] Create `.github/workflows/deploy-backend.yml`:
+    [ ] Trigger on push to main
+    [ ] Render auto-deploys via GitHub integration (no manual Docker push needed)
+[ ] Create `.github/workflows/deploy-frontend.yml`:
+    [ ] Trigger on push to main
+    [ ] Vercel auto-deploy handles this (GitHub integration)
+
+## PHASE 9: Post-Launch Checklist
+[ ] Monitor error logs for first 48 hours (Sentry / Render logs dashboard)
+[ ] Check email delivery success rate
+[ ] Verify AI resume parsing working correctly on 5 real test resumes
+[ ] Monitor API response times (target: < 500ms for 95th percentile)
+[ ] Gather feedback from 2 test recruiters + 3 test job seekers
+[ ] Create GitHub Issues for any bugs found
+
+## DELIVERABLES / ACCEPTANCE CRITERIA
+[ ] All unit tests pass (> 70% coverage)
+[ ] All E2E test scenarios pass on staging
+[ ] Swagger API docs accessible at /api/docs
+[ ] Postman collection exported and committed
+[ ] API Integration Guide document complete
+[ ] Project book written (all chapters)
+[ ] PPT presentation complete (15-20 slides)
+[ ] Production deployment live and accessible via custom domain
+[ ] HTTPS enforced on all endpoints
+[ ] Uptime monitoring configured
+[ ] CI/CD pipeline running on GitHub
+[ ] All environment variables set in production (no secrets in code)

@@ -1,0 +1,130 @@
+################################################################################
+# MVP 2 — AUTHENTICATION SYSTEM
+# AI-Based Recruitment & Skill-Matching Platform
+# Goal: Implement login/signup with role-based access (User vs Recruiter)
+################################################################################
+
+## PHASE 1: Database Schema — Users (Mongoose)
+[ ] Create `User` Mongoose schema/model (/models/User.js) with fields:
+    [ ] _id (ObjectId, auto-generated)
+    [ ] email (unique, required, lowercase)
+    [ ] passwordHash (required, select: false)
+    [ ] role (String enum: 'user' | 'recruiter', required)
+    [ ] fullName (required)
+    [ ] phone (optional)
+    [ ] isVerified (Boolean, default false)
+    [ ] createdAt, updatedAt (auto via timestamps: true)
+[ ] Seed test accounts in /config/seed.js:
+    [ ] test-user@example.com / TestUser123 (role: user)
+    [ ] test-recruiter@example.com / TestRecruiter123 (role: recruiter)
+
+## PHASE 2: Backend — Auth API Endpoints
+[ ] POST /api/auth/signup
+    [ ] Validate: email format, password strength (min 8 chars, 1 uppercase, 1 number)
+    [ ] Validate: role must be 'user' or 'recruiter'
+    [ ] Check for duplicate email → return 409 if exists
+    [ ] Hash password with bcrypt (saltRounds: 12)
+    [ ] Create user record
+    [ ] Generate JWT access token (expires: 15min) + refresh token (expires: 7d)
+    [ ] Return: { user: {...}, accessToken, refreshToken }
+[ ] POST /api/auth/login
+    [ ] Validate email + password presence
+    [ ] Find user by email → return 404 if not found
+    [ ] Compare password with bcrypt
+    [ ] Generate JWT access token + refresh token
+    [ ] Return: { user: {id, email, role, full_name}, accessToken, refreshToken }
+[ ] POST /api/auth/logout
+    [ ] Invalidate refresh token (delete from DB or blacklist)
+    [ ] Return 200 OK
+[ ] POST /api/auth/refresh
+    [ ] Validate refresh token
+    [ ] Generate new access token
+    [ ] Return: { accessToken }
+[ ] GET /api/auth/me
+    [ ] Protected route (verify JWT middleware)
+    [ ] Return current user info
+[ ] Implement JWT middleware (authMiddleware):
+    [ ] Extract Bearer token from Authorization header
+    [ ] Verify token signature and expiry
+    [ ] Attach user to request object (req.user)
+    [ ] Return 401 if token invalid/expired
+[ ] Implement role-based middleware:
+    [ ] requireUser → only role: 'user' allowed
+    [ ] requireRecruiter → only role: 'recruiter' allowed
+
+## PHASE 3: Frontend — Signup Page
+[ ] Create SignupPage component at /signup
+[ ] Implement role selection UI:
+    [ ] Two toggle/radio cards: "I'm a Job Seeker" | "I'm a Recruiter"
+    [ ] Visual distinction (icon + label for each role)
+[ ] Build signup form with fields:
+    [ ] Full Name (required)
+    [ ] Email Address (required)
+    [ ] Password (required, show/hide toggle)
+    [ ] Confirm Password (required)
+    [ ] Role (hidden field, determined by toggle above)
+[ ] Add form validation with react-hook-form + zod:
+    [ ] Email format
+    [ ] Password: min 8 chars, 1 uppercase, 1 number
+    [ ] Confirm password must match
+[ ] On submit:
+    [ ] Call POST /api/auth/signup
+    [ ] Show loading spinner on button
+    [ ] On success: store tokens, redirect based on role:
+        [ ] role: 'user' → /dashboard
+        [ ] role: 'recruiter' → /recruiter
+    [ ] On error: show inline error message
+[ ] Add link: "Already have an account? Log in"
+
+## PHASE 4: Frontend — Login Page
+[ ] Create LoginPage component at /login
+[ ] Implement role selection UI (same as signup — Job Seeker / Recruiter)
+[ ] Build login form with fields:
+    [ ] Email Address (required)
+    [ ] Password (required, show/hide toggle)
+[ ] Add form validation:
+    [ ] Email format required
+    [ ] Password required
+[ ] On submit:
+    [ ] Call POST /api/auth/login
+    [ ] Show loading spinner
+    [ ] On success: store tokens, redirect based on role
+    [ ] On error: show "Invalid email or password" message
+[ ] Add link: "Don't have an account? Sign up"
+[ ] Add "Forgot Password?" link (placeholder for future MVP)
+
+## PHASE 5: Frontend — Auth State Management
+[ ] Create auth store (zustand / redux slice):
+    [ ] State: user, accessToken, refreshToken, isAuthenticated, isLoading
+    [ ] Actions: login, logout, refreshToken, setUser
+[ ] Persist auth state to localStorage (accessToken, refreshToken, user)
+[ ] Implement axios interceptor:
+    [ ] Attach Authorization: Bearer <token> to all requests
+    [ ] On 401 response: attempt token refresh automatically
+    [ ] On refresh failure: logout user and redirect to /login
+[ ] Create useAuth() custom hook:
+    [ ] Exposes: user, isAuthenticated, role, login, logout
+
+## PHASE 6: Frontend — Route Guards
+[ ] Create ProtectedRoute component:
+    [ ] If not authenticated → redirect to /login
+    [ ] If wrong role → redirect to appropriate dashboard
+[ ] Wrap /dashboard with ProtectedRoute (role: user)
+[ ] Wrap /recruiter with ProtectedRoute (role: recruiter)
+[ ] Show loading spinner while auth state is being determined on page load
+
+## PHASE 7: Security Hardening
+[ ] Store refresh tokens in httpOnly cookies (not localStorage) in production
+[ ] Implement rate limiting on auth endpoints (max 10 requests/15min per IP)
+[ ] Add CSRF protection for cookie-based auth
+[ ] Sanitize all inputs before DB operations
+[ ] Log failed login attempts
+
+## DELIVERABLES / ACCEPTANCE CRITERIA
+[ ] A user can sign up as "Job Seeker" and be redirected to User Dashboard
+[ ] A user can sign up as "Recruiter" and be redirected to Recruiter Dashboard
+[ ] Login works with correct credentials; shows error on wrong credentials
+[ ] JWT is sent with every API request automatically
+[ ] Protected routes redirect unauthenticated users to /login
+[ ] Tokens refresh automatically when access token expires
+[ ] Logout clears all auth state and redirects to /login

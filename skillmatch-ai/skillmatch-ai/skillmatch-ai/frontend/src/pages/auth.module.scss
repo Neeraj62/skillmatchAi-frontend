@@ -1,0 +1,599 @@
+@use "../assets/css/global.styles.scss" as *;
+
+// Main Layout - Landscape Split
+.authPage {
+  min-height: 100vh;
+  display: flex;
+  background: $color-bg;
+}
+
+// Left Panel - Branding
+.brandPanel {
+  display: none;
+  flex: 1;
+  background: linear-gradient(135deg, rgba($color-primary, 0.1) 0%, rgba($color-accent, 0.05) 100%);
+  position: relative;
+  overflow: hidden;
+  padding: 48px;
+
+  @media (min-width: 1024px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+.brandContent {
+  position: relative;
+  z-index: 1;
+  max-width: 480px;
+}
+
+.brandLogo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 48px;
+
+  span {
+    font-size: 1.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, $color-primary 0%, $color-accent 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+.brandTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: $color-text;
+  line-height: 1.2;
+  margin: 0 0 16px;
+}
+
+.brandSubtitle {
+  font-size: 1.125rem;
+  color: $color-text-secondary;
+  line-height: 1.6;
+  margin: 0 0 40px;
+}
+
+.brandFeatures {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.featureItem {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.featureIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba($color-primary, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $color-primary;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.featureText {
+  h4 {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: $color-text;
+    margin: 0 0 4px;
+  }
+
+  p {
+    font-size: 0.8125rem;
+    color: $color-text-secondary;
+    margin: 0;
+  }
+}
+
+.brandDecor {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  
+  &::before {
+    content: "";
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba($color-primary, 0.1) 0%, transparent 70%);
+    top: -100px;
+    right: -100px;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba($color-accent, 0.08) 0%, transparent 70%);
+    bottom: -50px;
+    left: -50px;
+  }
+}
+
+// Right Panel - Form
+.formPanel {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  position: relative;
+
+  @media (min-width: 1024px) {
+    max-width: 560px;
+  }
+}
+
+.authCard {
+  width: 100%;
+  max-width: 400px;
+}
+
+// Mobile Logo
+.mobileLogo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 32px;
+
+  span {
+    font-size: 1.25rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, $color-primary 0%, $color-accent 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  @media (min-width: 1024px) {
+    display: none;
+  }
+}
+
+// Header
+.authHeader {
+  margin-bottom: 28px;
+
+  h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: $color-text;
+    margin: 0 0 8px;
+    line-height: 1.2;
+
+    @media (min-width: 1024px) {
+      font-size: 2rem;
+    }
+  }
+
+  p {
+    font-size: 0.9375rem;
+    color: $color-text-secondary;
+    margin: 0;
+  }
+}
+
+// Tab Menu
+.tabMenu {
+  display: flex;
+  gap: 8px;
+  padding: 4px;
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: 12px;
+  margin-bottom: 24px;
+}
+
+.tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border: none;
+  background: transparent;
+  color: $color-text-secondary;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+
+  svg {
+    font-size: 18px;
+  }
+
+  &:hover:not(.active) {
+    color: $color-text;
+    background: rgba($color-bg, 0.5);
+  }
+
+  &.active {
+    background: $color-primary;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba($color-primary, 0.3);
+  }
+}
+
+// Form
+.authForm {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: $color-text;
+  }
+}
+
+.labelRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: $color-text;
+  }
+}
+
+.forgotLink {
+  font-size: 0.8125rem;
+  color: $color-primary;
+  font-weight: 500;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: $color-primary-hover;
+  }
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.inputIcon {
+  position: absolute;
+  left: 14px;
+  font-size: 18px;
+  color: $color-muted;
+  pointer-events: none;
+}
+
+.inputWrapper input {
+  width: 100%;
+  padding: 14px 14px 14px 44px;
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: 10px;
+  color: $color-text;
+  font-size: 0.9375rem;
+  transition: all 0.2s ease;
+
+  &::placeholder {
+    color: $color-muted;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+    box-shadow: 0 0 0 3px rgba($color-primary, 0.15);
+  }
+}
+
+.togglePassword {
+  position: absolute;
+  right: 14px;
+  background: transparent;
+  border: none;
+  color: $color-muted;
+  font-size: 18px;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: $color-text;
+  }
+}
+
+// Checkbox
+.checkboxGroup {
+  margin-top: 4px;
+}
+
+.checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+  font-size: 0.8125rem;
+  color: $color-text-secondary;
+  line-height: 1.5;
+
+  input {
+    display: none;
+  }
+
+  a {
+    color: $color-primary;
+    font-weight: 500;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.checkmark {
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  border: 2px solid $color-border;
+  border-radius: 4px;
+  background: $color-surface;
+  position: relative;
+  transition: all 0.2s ease;
+  margin-top: 2px;
+
+  &::after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 5px;
+    top: 1px;
+    width: 5px;
+    height: 10px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+}
+
+.checkbox input:checked + .checkmark {
+  background: $color-primary;
+  border-color: $color-primary;
+
+  &::after {
+    display: block;
+  }
+}
+
+// Submit Button
+.submitBtn {
+  width: 100%;
+  padding: 14px 24px;
+  background: $color-primary;
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+  margin-top: 4px;
+
+  &:hover:not(:disabled) {
+    background: $color-primary-hover;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba($color-primary, 0.4);
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(#fff, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Divider
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 20px 0;
+
+  &::before,
+  &::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: $color-border;
+  }
+
+  span {
+    font-size: 0.8125rem;
+    color: $color-muted;
+  }
+}
+
+// Demo Section
+.demoSection {
+  display: flex;
+  gap: 12px;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+  }
+}
+
+.demoBtn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: 10px;
+  color: $color-text-secondary;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  svg {
+    font-size: 16px;
+  }
+
+  &:hover {
+    background: $color-surface-elevated;
+    border-color: $color-muted;
+    color: $color-text;
+  }
+}
+
+// Footer
+.authFooter {
+  margin-top: 24px;
+  text-align: center;
+
+  p {
+    font-size: 0.875rem;
+    color: $color-text-secondary;
+    margin: 0;
+  }
+
+  a {
+    color: $color-primary;
+    font-weight: 600;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+// Success State (Forgot Password)
+.successState {
+  text-align: center;
+  padding: 20px 0;
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: $color-text;
+    margin: 0 0 12px;
+  }
+
+  p {
+    font-size: 0.9375rem;
+    color: $color-text-secondary;
+    margin: 0 0 16px;
+    line-height: 1.6;
+
+    strong {
+      color: $color-text;
+    }
+  }
+
+  .subText {
+    font-size: 0.8125rem;
+  }
+}
+
+.successIcon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba($color-primary, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+
+  svg {
+    font-size: 32px;
+    color: $color-primary;
+  }
+}
+
+.resendBtn {
+  background: none;
+  border: none;
+  color: $color-primary;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+  font-size: inherit;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+// Back Link
+.backLink {
+  margin-top: 24px;
+  text-align: center;
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.875rem;
+    color: $color-text-secondary;
+    font-weight: 500;
+    transition: color 0.2s ease;
+
+    svg {
+      font-size: 16px;
+    }
+
+    &:hover {
+      color: $color-text;
+    }
+  }
+}

@@ -1,0 +1,203 @@
+################################################################################
+# MVP 3 — USER (JOB SEEKER) DASHBOARD
+# AI-Based Recruitment & Skill-Matching Platform
+# Goal: Build the complete User Dashboard with Profile, Resume, Jobs & History
+# Reference: Image shows sidebar with Profile, Setting, Job, History, Applied
+################################################################################
+
+## PHASE 1: Database Schema — Candidate Profiles & Resumes
+[ ] Create `candidate_profiles` table:
+    [ ] user_id (FK → users.id, unique)
+    [ ] headline (e.g., "Frontend Developer | 3 Years Exp")
+    [ ] summary (bio/about text)
+    [ ] location (city, country)
+    [ ] phone
+    [ ] linkedin_url
+    [ ] github_url
+    [ ] portfolio_url
+    [ ] years_of_experience
+    [ ] current_salary
+    [ ] expected_salary
+    [ ] notice_period (in days)
+    [ ] avatar_url
+    [ ] created_at, updated_at
+[ ] Create `candidate_skills` table:
+    [ ] id, candidate_profile_id, skill_name, proficiency_level (beginner/intermediate/expert)
+[ ] Create `candidate_education` table:
+    [ ] id, candidate_profile_id, degree, institution, field_of_study, start_year, end_year, grade
+[ ] Create `candidate_experience` table:
+    [ ] id, candidate_profile_id, job_title, company, start_date, end_date, is_current, description
+[ ] Create `resumes` table:
+    [ ] id (UUID), user_id (FK), filename, file_url, file_size
+    [ ] ai_extracted_text (TEXT — parsed resume content)
+    [ ] ai_skills (JSON array of extracted skills)
+    [ ] ai_summary (AI-generated text summary)
+    [ ] is_primary (boolean)
+    [ ] uploaded_at
+[ ] Create `job_applications` table:
+    [ ] id (UUID), user_id (FK), job_id (FK)
+    [ ] resume_id (FK), cover_letter
+    [ ] status (ENUM: 'applied', 'screening', 'shortlisted', 'interview', 'rejected', 'offered')
+    [ ] ai_match_score (decimal 0-100)
+    [ ] applied_at, updated_at
+[ ] Run DB migrations
+
+## PHASE 2: Backend — User Profile APIs
+[ ] GET /api/user/profile → return current user's profile
+[ ] POST /api/user/profile → create profile (first-time setup)
+[ ] PUT /api/user/profile → update profile details
+[ ] PUT /api/user/profile/avatar → upload avatar image (multipart/form-data)
+[ ] POST /api/user/profile/skills → add skill
+[ ] DELETE /api/user/profile/skills/:id → remove skill
+[ ] POST /api/user/profile/education → add education entry
+[ ] PUT /api/user/profile/education/:id → update education
+[ ] DELETE /api/user/profile/education/:id → remove education
+[ ] POST /api/user/profile/experience → add work experience
+[ ] PUT /api/user/profile/experience/:id → update experience
+[ ] DELETE /api/user/profile/experience/:id → remove experience
+[ ] GET /api/user/settings → return account settings
+[ ] PUT /api/user/settings → update settings (email notifications, privacy, etc.)
+[ ] PUT /api/user/settings/password → change password (verify old password first)
+
+## PHASE 3: Backend — Resume APIs
+[ ] POST /api/user/resumes → upload resume PDF/DOCX (multipart)
+    [ ] Validate: file type (pdf/docx only), size (max 5MB)
+    [ ] Save file to cloud storage (AWS S3 / Cloudinary / Firebase Storage)
+    [ ] Store metadata in DB
+    [ ] Queue AI parsing job (async)
+    [ ] Return: { resume: {...}, message: "Resume uploaded. AI analysis in progress." }
+[ ] GET /api/user/resumes → list all uploaded resumes
+[ ] DELETE /api/user/resumes/:id → delete a resume
+[ ] PUT /api/user/resumes/:id/set-primary → set as primary resume
+[ ] GET /api/user/resumes/:id/analysis → return AI analysis results for a resume
+
+## PHASE 4: Backend — Job Browse & Application APIs  
+[ ] GET /api/jobs → list published jobs with pagination + filters:
+    [ ] Query params: keyword, location, salary_min, salary_max, job_type, experience_level, page, limit
+    [ ] If user is authenticated, include ai_match_score per job
+[ ] GET /api/jobs/:id → get single job details
+[ ] POST /api/jobs/:id/apply → apply for a job (authenticated user only)
+    [ ] Validate: user has uploaded at least one resume
+    [ ] Create application record
+    [ ] Trigger AI matching score computation (async)
+    [ ] Send confirmation email (optional)
+[ ] GET /api/user/applications → list all applications by the logged-in user
+    [ ] Include job title, company, status, match score, applied_at
+[ ] GET /api/user/applications/:id → get single application detail
+
+## PHASE 5: Frontend — Dashboard Layout
+[ ] Create UserDashboardLayout component:
+    [ ] Collapsible left sidebar navigation with items:
+        [ ] Profile (icon + label)
+        [ ] Resume (icon + label)
+        [ ] Jobs (icon + label)
+        [ ] History (icon + label)
+        [ ] Applied (icon + label)
+    [ ] Top header bar:
+        [ ] App logo/name
+        [ ] User avatar + name (top right)
+        [ ] Notification bell icon
+        [ ] Logout button
+    [ ] Main content area (renders child routes)
+[ ] Set up nested routes under /dashboard:
+    [ ] /dashboard/profile
+    [ ] /dashboard/resume
+    [ ] /dashboard/jobs
+    [ ] /dashboard/history
+    [ ] /dashboard/applied
+    [ ] /dashboard → redirect to /dashboard/profile
+[ ] Highlight active sidebar item based on current route
+
+## PHASE 6: Frontend — Profile Section (/dashboard/profile)
+[ ] Profile header card:
+    [ ] Avatar (click to upload new image)
+    [ ] Full name, headline, location, contact info
+    [ ] "Edit Profile" button
+[ ] Editable profile form (inline edit or modal):
+    [ ] Personal info: name, phone, location, headline, summary
+    [ ] URLs: LinkedIn, GitHub, Portfolio
+    [ ] Salary info: current, expected, notice period
+[ ] Skills section:
+    [ ] Chip/tag display for each skill with proficiency badge
+    [ ] "+ Add Skill" button → small form (skill name + proficiency level dropdown)
+    [ ] "×" to remove skill
+[ ] Education section:
+    [ ] List education entries (degree, institution, years)
+    [ ] "+ Add Education" button → form modal
+    [ ] Edit/delete each entry
+[ ] Work Experience section:
+    [ ] List work experience entries (title, company, dates, description)
+    [ ] "+ Add Experience" button → form modal
+    [ ] Edit/delete each entry
+[ ] Profile completion progress bar (percentage based on filled fields)
+
+## PHASE 7: Frontend — Resume Section (/dashboard/resume)
+[ ] Resume upload area:
+    [ ] Drag-and-drop zone + file browser
+    [ ] Accept: .pdf, .docx only
+    [ ] Max size: 5MB
+    [ ] Show upload progress bar
+[ ] Uploaded resumes list:
+    [ ] Each row: filename, upload date, file size, "Primary" badge
+    [ ] Actions: "View", "Set as Primary", "Delete"
+[ ] AI Analysis panel (per resume):
+    [ ] "AI Analysis" tab showing:
+        [ ] Extracted Skills list (with confidence scores)
+        [ ] AI-generated summary of candidate profile
+        [ ] Parsed education and experience highlights
+        [ ] "Analysis In Progress" loading state if still processing
+
+## PHASE 8: Frontend — Jobs Section (/dashboard/jobs)
+[ ] Job listings page:
+    [ ] Search bar (keyword, location)
+    [ ] Filter panel (salary range slider, job type, experience level)
+    [ ] Sort dropdown (newest, highest match score, salary)
+    [ ] Job cards grid/list:
+        [ ] Job title, Company name + logo, Location, Salary range
+        [ ] Posted date, Job type (full-time/part-time/remote)
+        [ ] AI Match Score badge (% in colored pill — if resume uploaded)
+        [ ] "Apply Now" button
+        [ ] "Save Job" bookmark icon
+    [ ] Pagination (or infinite scroll)
+[ ] Job detail view (modal or nested route):
+    [ ] Full job description
+    [ ] Required skills list
+    [ ] Company info
+    [ ] AI Match breakdown (which skills match, which are missing)
+    [ ] "Apply Now" button → apply flow (select resume + write cover letter)
+    [ ] Application confirmation modal
+
+## PHASE 9: Frontend — Applied Section (/dashboard/applied)
+[ ] Application history table:
+    [ ] Columns: Job Title, Company, Applied Date, Status, AI Match Score, Actions
+    [ ] Status badge colors: applied (blue), screening (orange), shortlisted (green), rejected (red)
+    [ ] "View Details" → shows full application + job info
+    [ ] "Withdraw" button (if status is 'applied')
+[ ] Status timeline view per application (step tracker)
+
+## PHASE 10: Frontend — History Section (/dashboard/history)
+[ ] "Jobs Viewed" list with timestamps
+[ ] "Saved Jobs" list
+[ ] Account activity log (profile updates, resume uploads, applications)
+
+## PHASE 11: Frontend — Settings Section (/dashboard/settings)
+[ ] Account settings form:
+    [ ] Change email
+    [ ] Change password (old + new + confirm)
+    [ ] Email notification preferences (checkboxes):
+        [ ] New job matches
+        [ ] Application status updates
+        [ ] Weekly digest
+    [ ] Privacy settings:
+        [ ] Profile visibility toggle (public / private)
+[ ] Danger zone:
+    [ ] "Delete Account" button (with confirmation dialog)
+
+## DELIVERABLES / ACCEPTANCE CRITERIA
+[ ] User can view and edit their profile from the dashboard
+[ ] User can upload a resume (PDF/DOCX) and see AI analysis results
+[ ] User can browse jobs with filters and search
+[ ] "Apply" button requires resume to be uploaded
+[ ] Applied jobs are listed with live status tracking
+[ ] AI Match Score appears on job cards (after resume upload + AI processing)
+[ ] All dashboard sections are responsive on mobile and tablet

@@ -1,0 +1,160 @@
+################################################################################
+# MVP 1 — FOUNDATION & LANDING PAGE
+# AI-Based Recruitment & Skill-Matching Platform
+# Goal: Set up project structure + build public-facing landing page
+################################################################################
+
+## PHASE 1: Project Setup & Tech Stack Decision
+☐ Confirmed frontend: React.js (Vite) + Tailwind CSS + SCSS + Material UI
+[ ] Confirmed backend: Node.js + Express.js
+[ ] Confirmed database: MongoDB (cloud: MongoDB Atlas free tier)
+[ ] Confirmed AI/ML API provider: OpenAI (GPT-4o-mini) via openai npm package
+[ ] Initialize Git repository with proper .gitignore
+[ ] Set up separate frontend/ and backend/ folders (or monorepo)
+[ ] Create .env.example with all required environment variable placeholders
+[ ] Set up linting: ESLint + Prettier (frontend + backend)
+[ ] Set up README.md with project overview and local setup instructions
+
+## PHASE 2: Backend Foundation
+[ ] Initialize backend project: `npm init -y` inside /backend
+[ ] Install core dependencies:
+    [ ] express
+    [ ] cors, helmet, dotenv, morgan
+    [ ] jsonwebtoken (JWT auth)
+    [ ] bcryptjs (password hashing)
+    [ ] mongoose (MongoDB ODM)
+    [ ] express-validator (input validation)
+    [ ] multer (file upload middleware)
+    [ ] bull + ioredis (async job queue for AI tasks)
+    [ ] openai (OpenAI Node.js SDK)
+    [ ] nodemon (dev dependency)
+[ ] Connect to MongoDB Atlas:
+    [ ] Add MONGODB_URI to .env
+    [ ] Create mongoose connection in /config/db.js
+    [ ] Test connection on server start
+[ ] Set up health-check route: GET /api/health → { status: "ok" }
+[ ] Create base folder structure:
+    [ ] /routes
+    [ ] /controllers
+    [ ] /models (Mongoose schemas)
+    [ ] /middleware
+    [ ] /services
+    [ ] /utils
+    [ ] /config
+    [ ] /queues (Bull job queues)
+[ ] Set up global error handling middleware
+[ ] Set up request logging with morgan
+[ ] Write initial Mongoose schemas: User, Job, Application, Resume
+
+## PHASE 3: Frontend Foundation
+[ ] Initialize React project: `npm create vite@latest frontend -- --template react`
+[ ] Install core dependencies:
+    [ ] react-router-dom (v6+)
+    [ ] axios
+    [ ] @tanstack/react-query (data fetching + caching)
+    [ ] zustand (lightweight state management)
+    [ ] @mui/material @mui/icons-material @emotion/react @emotion/styled (Material UI)
+    [ ] tailwindcss postcss autoprefixer (Tailwind CSS)
+    [ ] sass (SCSS support)
+    [ ] react-hook-form + zod + @hookform/resolvers (form validation)
+    [ ] react-dropzone (resume drag-and-drop upload)
+    [ ] react-toastify (toast notifications)
+    [ ] framer-motion (animations)
+    [ ] dayjs (date formatting)
+[ ] Configure Tailwind CSS:
+    [ ] Run: `npx tailwindcss init -p`
+    [ ] Add Tailwind directives to index.css
+    [ ] Configure content paths in tailwind.config.js
+[ ] Configure SCSS:
+    [ ] Create /src/styles/_variables.scss, _mixins.scss, _globals.scss
+    [ ] Import global SCSS in main.jsx
+[ ] Configure Material UI theme:
+    [ ] Create /src/theme/muiTheme.js with custom palette, typography
+    [ ] Wrap App in <ThemeProvider>
+[ ] Create base folder structure:
+    [ ] /src/pages
+    [ ] /src/components (shared UI components)
+    [ ] /src/layouts
+    [ ] /src/hooks
+    [ ] /src/services (Axios API layer)
+    [ ] /src/store (Zustand stores)
+    [ ] /src/utils
+    [ ] /src/styles (SCSS files)
+    [ ] /src/theme (MUI theme config)
+[ ] Set up react-router-dom with base routes:
+    [ ] / → LandingPage
+    [ ] /login → LoginPage
+    [ ] /signup → SignupPage
+    [ ] /dashboard/* → UserDashboard (protected)
+    [ ] /recruiter/* → RecruiterDashboard (protected)
+[ ] Create base Layout component (with Navbar + Footer)
+
+## PHASE 4: Landing Page UI
+[ ] Create LandingPage component with sections:
+    [ ] Navbar (logo, nav links: Jobs, About, Features, Testimonials; CTA: Login/Signup)
+    [ ] Hero Section:
+        [ ] Headline: "AI-Powered Hiring. Smarter Matches. Faster Decisions."
+        [ ] Sub-headline describing platform value proposition
+        [ ] Primary CTA button: "Get Started Free"
+        [ ] Secondary CTA: "Post a Job"
+        [ ] Hero illustration or background graphic
+    [ ] Jobs Section (limited public job listings):
+        [ ] Display latest 6 featured job cards
+        [ ] Each card: Job title, Company, Location, Salary range, AI Match Score badge
+        [ ] "Apply" button → redirects to /login (if not authenticated)
+        [ ] "See All Jobs" link
+    [ ] About Section:
+        [ ] 2-column layout: text + illustration
+        [ ] Platform mission statement
+    [ ] Features Section:
+        [ ] Feature grid (6 cards):
+            [ ] AI Resume Analysis
+            [ ] Smart Skill Matching
+            [ ] Automated Shortlisting
+            [ ] Candidate Ranking
+            [ ] Recruiter Dashboard
+            [ ] Data-Driven Insights
+        [ ] Each card: icon + title + short description
+    [ ] Testimonials Section:
+        [ ] 3 testimonial cards (recruiter + 2 candidates)
+        [ ] Name, role, company, avatar, star rating, quote
+    [ ] Footer:
+        [ ] Logo + tagline
+        [ ] Links: Jobs, About, Features, Testimonials
+        [ ] Links: Privacy Policy, Terms of Service, Contact
+        [ ] Social icons (LinkedIn, Twitter, GitHub)
+        [ ] Copyright notice
+[ ] Add smooth scroll behavior to navbar anchor links
+[ ] Make landing page fully responsive (mobile, tablet, desktop)
+[ ] Add page meta tags: title, description, OG tags
+
+## PHASE 5: Domain & Hosting Setup
+✔ Register domain (.com / .in / .tech): ₹1,900 (Namecheap recommended) @done(26-03-16 08:58)
+[ ] Frontend deployment — Vercel:
+    [ ] Push frontend/ folder to GitHub
+    [ ] Connect GitHub repo to Vercel (vercel.com)
+    [ ] Set root directory to frontend/ in Vercel settings
+    [ ] Add env var: VITE_API_URL=https://your-api.onrender.com
+    [ ] Add custom domain (yourdomain.com) in Vercel dashboard
+[ ] Backend deployment — Render:
+    [ ] Push backend/ folder to GitHub
+    [ ] Create new "Web Service" on Render (render.com)
+    [ ] Connect GitHub repo → select backend/ folder
+    [ ] Build command: `npm install`
+    [ ] Start command: `node server.js` OR `npm start`
+    [ ] Add all environment variables in Render dashboard
+    [ ] Add MongoDB Atlas connection string in env vars
+    [ ] Enable auto-deploy on push to main branch
+    [ ] Note: Render free tier spins down after 15 min inactivity (upgrade for always-on)
+[ ] Set up CI/CD (GitHub Actions):
+    [ ] Auto-deploy frontend to Vercel on push to main (Vercel GitHub integration)
+    [ ] Auto-deploy backend to Render on push to main (Render GitHub integration)
+
+## DELIVERABLES / ACCEPTANCE CRITERIA
+[ ] Landing page renders correctly on all screen sizes
+[ ] All nav sections scroll smoothly
+[ ] "Apply" button for jobs redirects unauthenticated users to /login
+[ ] Backend health-check endpoint returns 200 OK
+[ ] Database connection established and tested
+[ ] All environment variables documented in .env.example
+[ ] Code pushed to Git repository

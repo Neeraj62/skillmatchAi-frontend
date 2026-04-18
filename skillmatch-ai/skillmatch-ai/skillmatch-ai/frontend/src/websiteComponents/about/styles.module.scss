@@ -1,0 +1,395 @@
+@use "../../assets/css/global.styles.scss" as *;
+
+.section {
+  padding: 120px 24px;
+  background: $color-bg;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, $color-border, transparent);
+  }
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 80px;
+
+  @media (max-width: $breakpoint-lg) {
+    flex-direction: column;
+    gap: 60px;
+  }
+}
+
+// Text Column
+.textColumn {
+  flex: 1;
+  max-width: 560px;
+
+  @media (max-width: $breakpoint-lg) {
+    max-width: 100%;
+    text-align: center;
+  }
+}
+
+.badge {
+  display: inline-block;
+  padding: 8px 16px;
+  background: rgba($color-primary, 0.1);
+  border: 1px solid rgba($color-primary, 0.2);
+  border-radius: 100px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: $color-primary;
+  margin-bottom: 24px;
+}
+
+.title {
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0 0 24px;
+  color: $color-text;
+  text-wrap: balance;
+}
+
+.gradient {
+  background: linear-gradient(135deg, $color-primary, $color-accent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.mission {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: $color-text;
+  margin: 0 0 16px;
+  line-height: 1.6;
+}
+
+.description {
+  font-size: 1rem;
+  color: $color-text-secondary;
+  margin: 0 0 40px;
+  line-height: 1.7;
+}
+
+// Features
+.features {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  @media (max-width: $breakpoint-lg) {
+    align-items: center;
+  }
+}
+
+.feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+
+  @media (max-width: $breakpoint-lg) {
+    text-align: left;
+    max-width: 400px;
+  }
+}
+
+.featureIcon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba($color-primary, 0.15), rgba($color-accent, 0.1));
+  border: 1px solid rgba($color-primary, 0.2);
+  border-radius: 12px;
+  flex-shrink: 0;
+  color: $color-primary;
+}
+
+.featureContent {
+  h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: $color-text;
+    margin: 0 0 4px;
+  }
+
+  p {
+    font-size: 0.875rem;
+    color: $color-text-secondary;
+    margin: 0;
+    line-height: 1.5;
+  }
+}
+
+// Illustration Column
+.illustrationColumn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @media (max-width: $breakpoint-lg) {
+    width: 100%;
+  }
+}
+
+.illustrationWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  aspect-ratio: 1;
+}
+
+.glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba($color-primary, 0.3) 0%, transparent 70%);
+  filter: blur(60px);
+  pointer-events: none;
+}
+
+.illustrationCard {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 320px;
+  height: 320px;
+  background: linear-gradient(145deg, $color-surface, $color-surface-elevated);
+  border: 1px solid $color-border;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.3),
+    0 20px 40px -10px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+
+  @media (max-width: $breakpoint-sm) {
+    width: 260px;
+    height: 260px;
+  }
+}
+
+// AI Visual
+.aiVisual {
+  width: 200px;
+  height: 200px;
+  position: relative;
+
+  @media (max-width: $breakpoint-sm) {
+    width: 160px;
+    height: 160px;
+  }
+}
+
+.brainContainer {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.brainSvg {
+  width: 100%;
+  height: 100%;
+}
+
+.node {
+  fill: $color-primary;
+  animation: pulse 2s ease-in-out infinite;
+
+  &:nth-child(2) { animation-delay: 0.2s; }
+  &:nth-child(3) { animation-delay: 0.4s; }
+  &:nth-child(4) { animation-delay: 0.6s; }
+  &:nth-child(5) { animation-delay: 0.8s; }
+  &:nth-child(6) { animation-delay: 1s; }
+  &:nth-child(7) { animation-delay: 1.2s; }
+  &:nth-child(8) { animation-delay: 1.4s; }
+}
+
+.connection {
+  stroke: rgba($color-primary, 0.3);
+  stroke-width: 1.5;
+  animation: connectionPulse 3s ease-in-out infinite;
+
+  &:nth-child(even) { animation-delay: 0.5s; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+
+@keyframes connectionPulse {
+  0%, 100% { stroke-opacity: 0.2; }
+  50% { stroke-opacity: 0.5; }
+}
+
+.pulseCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, $color-primary, $color-accent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  animation: centerPulse 2s ease-in-out infinite;
+  box-shadow: 0 0 30px rgba($color-primary, 0.5);
+
+  @media (max-width: $breakpoint-sm) {
+    width: 52px;
+    height: 52px;
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+}
+
+@keyframes centerPulse {
+  0%, 100% { box-shadow: 0 0 30px rgba($color-primary, 0.5); }
+  50% { box-shadow: 0 0 50px rgba($color-primary, 0.7); }
+}
+
+// Floating Data Cards
+.dataCard {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: $color-surface-elevated;
+  border: 1px solid $color-border;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: $color-text;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  animation: float 4s ease-in-out infinite;
+
+  @media (max-width: $breakpoint-sm) {
+    padding: 8px 12px;
+    font-size: 0.7rem;
+  }
+}
+
+.dataCardIcon {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba($color-primary, 0.15);
+  border-radius: 8px;
+  color: $color-primary;
+
+  @media (max-width: $breakpoint-sm) {
+    width: 24px;
+    height: 24px;
+    
+    svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+}
+
+.dataCard1 {
+  top: 10%;
+  right: 5%;
+  animation-delay: 0s;
+
+  @media (max-width: $breakpoint-sm) {
+    top: 5%;
+    right: 0;
+  }
+}
+
+.dataCard2 {
+  bottom: 25%;
+  left: 0;
+  animation-delay: 1s;
+
+  @media (max-width: $breakpoint-sm) {
+    bottom: 20%;
+    left: -5%;
+  }
+}
+
+.dataCard3 {
+  bottom: 5%;
+  right: 10%;
+  animation-delay: 2s;
+
+  @media (max-width: $breakpoint-sm) {
+    bottom: 0;
+    right: 5%;
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+// Orbit
+.orbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 400px;
+  border: 1px dashed rgba($color-primary, 0.2);
+  border-radius: 50%;
+  animation: rotate 20s linear infinite;
+  pointer-events: none;
+
+  @media (max-width: $breakpoint-sm) {
+    width: 320px;
+    height: 320px;
+  }
+}
+
+.orbitDot {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 12px;
+  background: $color-secondary;
+  border-radius: 50%;
+  box-shadow: 0 0 15px $color-secondary;
+}
+
+@keyframes rotate {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}

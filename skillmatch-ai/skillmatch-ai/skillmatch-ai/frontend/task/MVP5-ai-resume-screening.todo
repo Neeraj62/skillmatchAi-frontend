@@ -1,0 +1,162 @@
+################################################################################
+# MVP 5 — AI RESUME SCREENING & SKILL MATCHING ENGINE
+# AI-Based Recruitment & Skill-Matching Platform
+# Goal: Implement AI-powered resume parsing, skill extraction, and job matching
+################################################################################
+
+## PHASE 1: AI Service Architecture Design
+[ ] AI service is integrated directly into the Node.js Express backend (no separate microservice)
+[ ] AI processing runs as async background jobs via Bull queue (Redis-backed)
+[ ] Choose AI/LLM provider:
+    [ ] Primary: OpenAI GPT-4o-mini (structured JSON output, cost-optimized)
+    [ ] Fallback: keyword-based TF-IDF cosine similarity (no API cost)
+[ ] Install AI/NLP dependencies (npm packages):
+    [ ] openai (official OpenAI Node.js SDK v4+)
+    [ ] bull (Redis job queue for async AI tasks)
+    [ ] ioredis (Redis client for Bull)
+    [ ] pdf-parse (PDF text extraction)
+    [ ] mammoth (DOCX text extraction)
+    [ ] natural (NLP: TF-IDF, tokenizer for fallback matching)
+    [ ] ml-distance (cosine similarity for fallback matching)
+[ ] Configure OpenAI API key via environment variable: OPENAI_API_KEY
+[ ] Set up Bull board (optional): bull-board for monitoring queues in dev
+
+## PHASE 2: Resume Parser — Text Extraction (Node.js)
+[ ] Create `extractTextFromPdf(fileBuffer)` utility in /utils/fileParser.js:
+    [ ] Use pdf-parse npm package
+    [ ] Handle corrupt/empty PDFs gracefully
+    [ ] Return clean raw text string
+[ ] Create `extractTextFromDocx(fileBuffer)` utility:
+    [ ] Use mammoth npm package
+    [ ] Return extracted plain text string
+[ ] Create `detectFileType(originalname)` → return 'pdf' | 'docx' | 'unsupported'
+[ ] Create main `extractResumeText(fileBuffer, originalname)` dispatcher
+[ ] Handle exceptions: unsupported type, empty file → throw descriptive errors
+[ ] Write unit tests for extraction with sample PDF and DOCX files
+
+## PHASE 3: AI Resume Parser — LLM Skill Extraction (Node.js OpenAI SDK)
+[ ] Design JSON output schema for parsed resume (same structure as before)
+[ ] Write structured extraction prompt in /services/aiPrompts.js:
+    [ ] System prompt: defines role as expert HR assistant
+    [ ] User prompt: includes resume text + asks for JSON output
+    [ ] Use OpenAI response_format: { type: 'json_object' } for clean output
+[ ] Implement `parseResumeWithAI(resumeText)` in /services/aiService.js:
+    [ ] Use openai.chat.completions.create() with model: 'gpt-4o-mini'
+    [ ] Parse JSON from response.choices[0].message.content
+    [ ] Validate with Joi or Zod schema
+    [ ] Return parsed object
+[ ] Implement retry logic (max 3 retries with 1s delay on API error)
+[ ] Write unit tests with 3 sample resumes (junior, senior, career-changer)
+
+## PHASE 4: AI Job Matching — Matching Score Engine
+[ ] Design Job Matching input schema:
+    {
+      "candidate_skills": [string],
+      "candidate_experience_years": number,
+      "candidate_summary": string,
+      "job_required_skills": [string],
+      "job_nice_to_have_skills": [string],
+      "job_description": string,
+      "job_experience_level": string
+    }
+[ ] Design Match Score output schema:
+    {
+      "overall_score": decimal (0-100),
+      "skills_score": decimal (weighted),
+      "experience_score": decimal,
+      "matched_required_skills": [string],
+      "missing_required_skills": [string],
+      "matched_nice_to_have_skills": [string],
+      "strengths": [string],
+      "gaps": [string],
+      "ai_recommendation": string ("Strong Match" | "Good Match" | "Partial Match" | "Not Recommended"),
+      "short_summary": string
+    }
+[ ] Implement `compute_match_score(candidate, job)` using two approaches:
+    [ ] Method 1 — LLM-based (primary):
+        [ ] Send candidate + job data to GPT-4o
+        [ ] Ask for score + breakdown in JSON
+        [ ] Parse and validate with pydantic
+    [ ] Method 2 — Keyword-based fallback (no API cost):
+        [ ] TF-IDF vectorization of skills + description
+        [ ] Cosine similarity score (0-1) → multiply by 100
+        [ ] Simple required skills overlap ratio
+[ ] Scoring weights:
+    [ ] Required Skills Match: 50%
+    [ ] Total Experience Level: 25%
+    [ ] Description Semantic Match: 15%
+    [ ] Nice-to-Have Skills: 10%
+[ ] Write unit tests for match scoring with known pairs
+
+## PHASE 5: Bull Job Queue — Async AI Workers (Node.js)
+[ ] Set up Redis connection in /config/redis.js (use Upstash Redis in production)
+[ ] Create Bull queues in /queues/:
+    [ ] `resumeQueue` — processes resume parsing jobs
+    [ ] `matchQueue` — processes job matching score jobs
+[ ] Implement `resumeQueue` processor in /queues/resumeProcessor.js:
+    [ ] Job: `parseResume` with data: { resumeId }
+    [ ] Fetch resume file from storage (S3/Cloudinary URL)
+    [ ] Download file buffer → extract text
+    [ ] Call parseResumeWithAI(text)
+    [ ] Save results to Resume MongoDB document (aiExtractedText, aiSkills, aiSummary)
+    [ ] Update resume status → 'analyzed'
+    [ ] Add job to matchQueue for all active jobs
+[ ] Implement `matchQueue` processor in /queues/matchProcessor.js:
+    [ ] Job: `computeMatchScores` with data: { resumeId }
+    [ ] Fetch all active job postings from MongoDB
+    [ ] For each job, call computeMatchScore(candidate, job)
+    [ ] Upsert match score to JobMatch MongoDB collection
+    [ ] Find top 10 matches → save as recommended jobs on user profile
+    [ ] Job: `computeApplicantScore` with data: { applicationId }
+    [ ] Compute score for specific candidate × job pair on application
+[ ] Configure Bull retry: attempts: 3, backoff: { type: 'exponential', delay: 2000 }
+[ ] Add Bull job progress events for real-time status updates
+[ ] Optionally enable bull-board at /admin/queues (dev only)
+
+## PHASE 6: Candidate Ranking System
+[ ] Create `rank_candidates(job_id)` function:
+    [ ] Fetch all applicants for a job
+    [ ] Sort by ai_match_score DESC
+    [ ] Apply secondary sort by total_years_experience DESC
+    [ ] Generate rank number (1 = top match)
+    [ ] Update ranks in DB
+    [ ] Return ranked list
+[ ] Expose API: GET /api/recruiter/jobs/:id/applicants?sort=match_score → already covered by MVP4
+[ ] Add leaderboard-style ranking display in recruiter applicant list (rank badge: #1, #2, #3)
+
+## PHASE 7: Personalized Job Recommendations (User Side)
+[ ] Create `recommend_jobs_for_user(user_id)` function:
+    [ ] Fetch user's primary resume AI skills
+    [ ] Query active jobs ordered by match score with user's profile
+    [ ] Return top 10 recommended jobs
+[ ] Expose API: GET /api/user/recommended-jobs → returns top job recommendations
+[ ] Display "Recommended for You" section in User Dashboard Jobs page (above all listings)
+[ ] Show "Based on your resume AI analysis" label
+
+## PHASE 8: AI Usage Cost Management (MongoDB-based Logging)
+[ ] Track API call count and cost in MongoDB:
+[ ] Create `AiUsageLog` Mongoose schema:
+    [ ] userId (ObjectId ref), taskType, tokensUsed, costUsd, createdAt
+[ ] Estimate costs:
+    [ ] Resume parse: ~2,000 tokens → ~$0.01 per resume (GPT-4o-mini)
+    [ ] Match score: ~1,500 tokens per job-candidate pair
+    [ ] Daily budget cap enforced — throw error if monthly limit exceeded
+[ ] Fallback to keyword-based (natural + ml-distance) when quota exceeded
+[ ] Admin endpoint: GET /api/admin/ai-usage → aggregate monthly spend report
+
+## PHASE 9: Skills Normalization (MongoDB)
+[ ] Create `Skill` Mongoose schema:
+    [ ] skillName (lowercase, unique), aliases ([String]), category
+[ ] Seed with common aliases: 'js'/'javascript' → 'JavaScript', 'ml' → 'Machine Learning'
+[ ] Use normalized skills in matching to prevent false negatives
+[ ] Expose GET /api/skills?q=jav → autocomplete for skill tag inputs in forms
+
+## DELIVERABLES / ACCEPTANCE CRITERIA
+[ ] Uploading a PDF/DOCX resume triggers AI parsing within 30 seconds
+[ ] AI parser extracts skills, experience, education, and generates a summary
+[ ] When user applies for a job, an AI match score (0-100) is computed
+[ ] Score breakdown shows matched skills (green) vs missing skills (red)
+[ ] Recruiter applicant list is sortable by AI match score
+[ ] Top 10 job recommendations appear on user's Jobs page
+[ ] AI cost tracking is in place to prevent budget overrun
+[ ] Fallback keyword matching works when AI API is unavailable

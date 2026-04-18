@@ -1,0 +1,266 @@
+@use "../../assets/css/global.styles.scss" as *;
+
+.section {
+  padding: 120px 24px;
+  background: $color-bg;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(ellipse 80% 50% at 50% 0%, rgba(129, 140, 248, 0.08) 0%, transparent 50%);
+    pointer-events: none;
+  }
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+// Header
+.header {
+  text-align: center;
+  margin-bottom: 64px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 8px 16px;
+  background: rgba(129, 140, 248, 0.1);
+  border: 1px solid rgba(129, 140, 248, 0.2);
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 500;
+  color: $color-primary;
+  margin-bottom: 24px;
+}
+
+.title {
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 700;
+  color: $color-text;
+  margin: 0 0 20px;
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+.gradient {
+  background: linear-gradient(135deg, $color-primary 0%, $color-accent 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  font-size: 18px;
+  color: $color-text-secondary;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+// Grid
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 64px;
+
+  @media (max-width: $breakpoint-lg) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: $breakpoint-md) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Card
+.card {
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: 20px;
+  padding: 32px;
+  position: relative;
+  transition: all 0.3s ease;
+  animation: fadeInUp 0.6s ease forwards;
+  opacity: 0;
+
+  &:hover {
+    transform: translateY(-4px);
+    border-color: rgba(129, 140, 248, 0.3);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  }
+
+  &.featured {
+    background: linear-gradient(135deg, rgba(129, 140, 248, 0.1) 0%, rgba(192, 132, 252, 0.05) 100%);
+    border-color: rgba(129, 140, 248, 0.3);
+
+    @media (max-width: $breakpoint-lg) {
+      grid-column: span 2;
+    }
+
+    @media (max-width: $breakpoint-md) {
+      grid-column: span 1;
+    }
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.quoteIcon {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  color: $color-primary;
+}
+
+// Rating
+.rating {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 20px;
+}
+
+.star {
+  color: #fbbf24;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Quote
+.quote {
+  font-size: 16px;
+  line-height: 1.7;
+  color: $color-text-secondary;
+  margin: 0 0 28px;
+  font-style: normal;
+}
+
+// Author
+.author {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  position: relative;
+}
+
+.avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, $color-primary 0%, $color-accent 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 16px;
+  color: white;
+  flex-shrink: 0;
+}
+
+.authorInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.name {
+  font-size: 16px;
+  font-weight: 600;
+  color: $color-text;
+  margin: 0 0 2px;
+}
+
+.role {
+  font-size: 14px;
+  color: $color-text-secondary;
+  margin: 0;
+}
+
+.company {
+  font-size: 13px;
+  color: $color-muted;
+  margin: 0;
+}
+
+.typeBadge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 4px 10px;
+  background: rgba(129, 140, 248, 0.15);
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 500;
+  color: $color-primary;
+}
+
+// Stats
+.stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+  padding: 40px;
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: 20px;
+
+  @media (max-width: $breakpoint-md) {
+    flex-direction: column;
+    gap: 32px;
+  }
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.statNumber {
+  font-size: 32px;
+  font-weight: 700;
+  color: $color-text;
+  background: linear-gradient(135deg, $color-primary 0%, $color-accent 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.statLabel {
+  font-size: 14px;
+  color: $color-text-secondary;
+  margin-top: 4px;
+}
+
+.statDivider {
+  width: 1px;
+  height: 48px;
+  background: $color-border;
+
+  @media (max-width: $breakpoint-md) {
+    width: 80px;
+    height: 1px;
+  }
+}

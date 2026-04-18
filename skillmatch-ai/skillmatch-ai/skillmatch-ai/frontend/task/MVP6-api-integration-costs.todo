@@ -1,0 +1,191 @@
+################################################################################
+# MVP 6 — THIRD-PARTY API INTEGRATION & PROJECT COST PLANNING
+# AI-Based Recruitment & Skill-Matching Platform
+# Goal: Integrate all external APIs + document complete project cost breakdown
+# Budget Reference (from image): Domain ₹1,900 | Backend ₹5,000 | Frontend ₹4,000
+#                                 Third-party API ₹3,500
+################################################################################
+
+## PHASE 1: File Storage API Integration
+[ ] Choose cloud storage provider: AWS S3 / Cloudinary / Firebase Storage
+[ ] Install SDK (AWS SDK v3 / cloudinary npm package)
+[ ] Configure credentials in .env:
+    [ ] STORAGE_PROVIDER=s3
+    [ ] S3_BUCKET_NAME=
+    [ ] S3_REGION=
+    [ ] AWS_ACCESS_KEY_ID=
+    [ ] AWS_SECRET_ACCESS_KEY=
+[ ] Create storage service utility (`/services/storage.service.js`):
+    [ ] `uploadFile(fileBuffer, fileName, folder)` → returns public URL
+    [ ] `deleteFile(fileKey)` → removes file from cloud
+    [ ] `getSignedUrl(fileKey, expiresIn)` → returns time-limited URL for private files
+[ ] Apply to: Resume uploads, Company logos, User avatars
+[ ] Set bucket/folder structure:
+    [ ] /resumes/{userId}/{uuid}.pdf
+    [ ] /avatars/{userId}/avatar.jpg
+    [ ] /logos/{recruiterId}/logo.png
+[ ] Set CORS policy on S3 bucket (allow frontend domain only)
+[ ] Enable versioning on resume bucket (keep old versions on re-upload)
+[ ] Estimated cost: Free tier (5GB storage, 20,000 GET/PUT per month on AWS S3)
+
+## PHASE 2: OpenAI API Integration
+[ ] Install: `npm install openai` (official Node.js SDK v4+)
+[ ] Configure in .env:
+    [ ] OPENAI_API_KEY=
+    [ ] OPENAI_MODEL=gpt-4o-mini  (cost-optimized)
+    [ ] OPENAI_MAX_TOKENS=2000
+[ ] Create OpenAI service wrapper (`/services/openai.service.js`):
+    [ ] `callOpenAI(prompt, systemPrompt, maxTokens)` → returns string response
+    [ ] `callOpenAIJson(prompt, systemPrompt)` → returns parsed JSON object
+    [ ] Handle: RateLimitError, APITimeoutError, APIConnectionError (retry 3x)
+    [ ] Log: model used, tokens consumed, cost estimate per call
+[ ] Implement cost tracking:
+    [ ] gpt-4o-mini: $0.15/1M input tokens, $0.60/1M output tokens
+    [ ] Estimate 500 resumes/month × 2,000 tokens = 1M tokens ~ $0.30/month
+    [ ] Estimate 5,000 job matches/month × 1,500 tokens = 7.5M tokens ~ $1.50/month
+    [ ] Total AI cost estimate: ~₹300-400/month well within ₹3,500 budget
+[ ] Implement monthly quota enforcement (hard stop at ₹2,500 to have buffer):
+    [ ] Check monthly usage (from MongoDB AiUsageLog) before each AI call
+    [ ] If quota exceeded: log warning, fall back to keyword matching
+    [ ] Alert admin via email when 80% of monthly budget is reached
+
+## PHASE 3: Email Notification API Integration
+[ ] Choose email provider: Resend / SendGrid / AWS SES (Resend recommended for simplicity)
+[ ] Install: resend npm package
+[ ] Configure in .env:
+    [ ] EMAIL_PROVIDER=resend
+    [ ] RESEND_API_KEY=
+    [ ] EMAIL_FROM=noreply@yourdomain.com
+[ ] Create email service (`/services/email.service.js`):
+    [ ] `sendEmail(to, subject, htmlBody)` → generic email sender
+    [ ] `sendWelcomeEmail(user)` → triggered on signup
+    [ ] `sendApplicationConfirmation(user, job)` → triggered on apply
+    [ ] `sendStatusUpdateEmail(user, job, newStatus)` → triggered on status change
+    [ ] `sendJobMatchNotification(user, topJobs)` → weekly digest
+[ ] Design email templates (HTML + inline CSS):
+    [ ] Welcome email template (with CTA: Complete your profile)
+    [ ] Application confirmation template
+    [ ] Status update template (shortlisted / rejected / interview invite)
+    [ ] Weekly job match recommendations template
+[ ] Implement email queue using Bull (don't block API response with email sending)
+[ ] Estimated cost: Resend free tier: 3,000 emails/month → FREE
+    [ ] Paid plan if needed: $20/month for 50,000 emails
+
+## PHASE 4: Webhook / Real-time Notifications (Optional)
+[ ] Implement server-sent events (SSE) OR WebSocket (socket.io) for real-time dashboard updates:
+    [ ] User gets notified instantly when:
+        [ ] Application status changes
+        [ ] AI resume analysis completes
+    [ ] Recruiter gets notified when:
+        [ ] New applicant applies for their job
+[ ] Implement in-app notification model:
+    [ ] Create `Notification` Mongoose schema: userId (ref), type, message, isRead, createdAt
+[ ] GET /api/notifications → list unread notifications
+[ ] PATCH /api/notifications/:id/read → mark as read
+[ ] PATCH /api/notifications/read-all → mark all as read
+
+## PHASE 5: LinkedIn OAuth Integration (Optional Enhancement)
+[ ] Register app on LinkedIn Developer Portal
+[ ] Configure OAuth 2.0 credentials:
+    [ ] LINKEDIN_CLIENT_ID=
+    [ ] LINKEDIN_CLIENT_SECRET=
+    [ ] LINKEDIN_REDIRECT_URI=
+[ ] Add "Sign in with LinkedIn" button on login/signup page
+[ ] On OAuth callback:
+    [ ] Fetch user's LinkedIn profile (name, email, picture, headline)
+    [ ] Pre-fill signup form with LinkedIn data
+    [ ] Auto-import LinkedIn skills into candidate profile
+
+## PHASE 6: Analytics API Integration (Optional)
+[ ] Integrate Google Analytics 4 or Plausible (privacy-focused):
+    [ ] Track page views, user flows, conversion funnel
+    [ ] Events: signup_completed, resume_uploaded, job_applied, ai_score_viewed
+[ ] Recruiter analytics (internal):
+    [ ] Job views, application rate, shortlist rate per job
+    [ ] Average match score distribution chart
+
+## PHASE 7: Complete Project Cost Breakdown
+[ ] Document all costs:
+
+    --- DOMAIN ---
+    [ ] Register domain (.com / .in / .tech): ₹1,900/year
+        Options: GoDaddy, Namecheap, Google Domains
+
+    --- FRONTEND HOSTING ---
+    [ ] Vercel (free tier → auto-upgrades only if needed): ₹0 initially
+        [ ] Custom domain setup on Vercel: ₹0
+    [ ] Development cost (UI/UX + React): ₹4,000
+
+    --- BACKEND HOSTING ---
+    [ ] Render.com Web Service (Node.js): Free tier available (spins down on inactivity)
+        [ ] Upgrade to Starter (~₹1,200/month) for always-on production backend
+    [ ] Development cost (API + DB): ₹5,000
+
+    --- DATABASE ---
+    [ ] MongoDB Atlas (Free M0 cluster: 512MB storage) → ₹0 for MVP
+        [ ] Upgrade to M2 Shared (~₹1,200/month) if data exceeds free tier
+    [ ] Redis (for Bull queue): Upstash Redis free tier (~10,000 req/day) → ₹0
+
+    --- THIRD-PARTY APIS ---
+    [ ] OpenAI API budget: ₹3,500
+        [ ] Estimated monthly AI usage: ₹300-600 (leaves buffer)
+    [ ] AWS S3 (file storage): Free tier covers initial usage
+    [ ] Resend email: Free tier (3,000 emails/month)
+
+    --- DOCUMENTATION COSTS ---
+    [ ] API documentation (Swagger/Postman collection): ₹0 (use free tools)
+    [ ] Project Book Binding (printed report): ~₹500-1,000
+    [ ] PPT Presentation design: ₹0 (use Canva free)
+
+    --- TOTAL ESTIMATED PROJECT COST (ONE-TIME + 1ST MONTH) ---
+    [ ] Domain: ₹1,900
+    [ ] Backend dev: ₹5,000
+    [ ] Frontend dev: ₹4,000
+    [ ] API Integration: ₹3,500
+    [ ] Documentation (binding + PPT): ₹1,000
+    [ ] GRAND TOTAL: ~₹15,400
+
+## PHASE 8: Environment Variables Master List
+[ ] Create `.env.example` with all variables documented:
+    # --- App ---
+    NODE_ENV=development
+    PORT=3000
+    FRONTEND_URL=http://localhost:4000
+
+    # --- Database ---
+    MONGODB_URI=mongodb+srv://user:pass@cluster.mongodb.net/aijobsdb
+    REDIS_URL=redis://localhost:6379
+
+    # --- Auth ---
+    JWT_SECRET=your_jwt_secret_here
+    JWT_EXPIRES_IN=15m
+    REFRESH_TOKEN_SECRET=your_refresh_secret
+    REFRESH_TOKEN_EXPIRES_IN=7d
+
+    # --- OpenAI ---
+    OPENAI_API_KEY=sk-...
+    OPENAI_MODEL=gpt-4o-mini
+    AI_MONTHLY_BUDGET_INR=2500
+
+    # --- Storage ---
+    AWS_ACCESS_KEY_ID=
+    AWS_SECRET_ACCESS_KEY=
+    S3_BUCKET_NAME=aijobs-files
+    S3_REGION=ap-south-1
+
+    # --- Email ---
+    RESEND_API_KEY=re_...
+    EMAIL_FROM=noreply@yourapp.com
+
+    # --- LinkedIn (optional) ---
+    LINKEDIN_CLIENT_ID=
+    LINKEDIN_CLIENT_SECRET=
+    LINKEDIN_REDIRECT_URI=
+
+## DELIVERABLES / ACCEPTANCE CRITERIA
+[ ] File uploads (resume, logo, avatar) work and store to cloud storage
+[ ] OpenAI API calls work and are logged with token/cost tracking
+[ ] Email notifications send for: signup, application, status change
+[ ] Monthly AI cost cannot exceed configured budget (failsafe active)
+[ ] .env.example is fully documented and pushed to repo
+[ ] Total project cost breakdown is documented and reviewed

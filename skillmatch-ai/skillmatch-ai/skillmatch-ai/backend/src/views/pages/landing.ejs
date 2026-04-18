@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SkillMatch AI — API Server</title>
+  <meta name="description" content="AI-Powered Recruitment & Skill-Matching Platform API — Resume Screening, Job Matching, and Recruitment Automation" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset & Variables ── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg-primary: #0a0e1a;
+      --bg-secondary: #111827;
+      --bg-card: rgba(17, 24, 39, 0.7);
+      --bg-card-hover: rgba(30, 41, 59, 0.8);
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --accent-blue: #3b82f6;
+      --accent-violet: #8b5cf6;
+      --accent-cyan: #06b6d4;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-rose: #f43f5e;
+      --gradient-hero: linear-gradient(135deg, #1e1b4b 0%, #0f172a 50%, #042f2e 100%);
+      --gradient-accent: linear-gradient(135deg, #3b82f6, #8b5cf6, #06b6d4);
+      --gradient-btn: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+      --border-subtle: rgba(148, 163, 184, 0.1);
+      --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      --shadow-glow: 0 0 40px rgba(59, 130, 246, 0.15);
+      --radius: 16px;
+      --radius-sm: 10px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* ── Animated Background ── */
+    .bg-animation {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      overflow: hidden;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .bg-animation .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.3;
+      animation: float 20s ease-in-out infinite;
+    }
+    .bg-animation .orb:nth-child(1) {
+      width: 500px; height: 500px;
+      background: var(--accent-violet);
+      top: -10%; left: -5%;
+      animation-delay: 0s;
+    }
+    .bg-animation .orb:nth-child(2) {
+      width: 400px; height: 400px;
+      background: var(--accent-blue);
+      top: 50%; right: -10%;
+      animation-delay: -7s;
+      animation-duration: 25s;
+    }
+    .bg-animation .orb:nth-child(3) {
+      width: 350px; height: 350px;
+      background: var(--accent-cyan);
+      bottom: -5%; left: 30%;
+      animation-delay: -14s;
+      animation-duration: 22s;
+    }
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(30px, -40px) scale(1.05); }
+      50% { transform: translate(-20px, 20px) scale(0.95); }
+      75% { transform: translate(40px, 30px) scale(1.02); }
+    }
+
+    /* ── Container ── */
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ── Navigation ── */
+    .navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 16px 0;
+      backdrop-filter: blur(20px);
+      background: rgba(10, 14, 26, 0.8);
+      border-bottom: 1px solid var(--border-subtle);
+      transition: all 0.3s ease;
+    }
+    .navbar .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+    .logo-icon {
+      width: 38px; height: 38px;
+      background: var(--gradient-btn);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+    .nav-links a:hover {
+      color: var(--text-primary);
+      background: rgba(255,255,255,0.05);
+    }
+    .nav-btn {
+      background: var(--gradient-btn) !important;
+      color: #fff !important;
+      padding: 8px 20px !important;
+      border-radius: 8px !important;
+      font-weight: 600 !important;
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+      transition: all 0.3s ease !important;
+    }
+    .nav-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(59, 130, 246, 0.45) !important;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 160px 0 100px;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px 6px 8px;
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--accent-blue);
+      margin-bottom: 28px;
+      animation: fadeInUp 0.6s ease;
+    }
+    .hero-badge .dot {
+      width: 8px; height: 8px;
+      background: var(--accent-emerald);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+    .hero h1 {
+      font-size: clamp(2.8rem, 6vw, 4.5rem);
+      font-weight: 900;
+      letter-spacing: -2px;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      animation: fadeInUp 0.6s ease 0.1s both;
+    }
+    .hero h1 .gradient-text {
+      background: var(--gradient-accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-subtitle {
+      font-size: 1.15rem;
+      color: var(--text-secondary);
+      max-width: 650px;
+      margin: 0 auto 40px;
+      line-height: 1.7;
+      animation: fadeInUp 0.6s ease 0.2s both;
+    }
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      animation: fadeInUp 0.6s ease 0.3s both;
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+    .btn-primary {
+      background: var(--gradient-btn);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(59, 130, 246, 0.35);
+    }
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(59, 130, 246, 0.5);
+    }
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-primary);
+      border: 1px solid var(--border-subtle);
+      backdrop-filter: blur(10px);
+    }
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(148, 163, 184, 0.25);
+      transform: translateY(-2px);
+    }
+
+    /* ── Stats Strip ── */
+    .stats-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      background: var(--border-subtle);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin: 80px 0;
+      box-shadow: var(--shadow-lg);
+    }
+    .stat-item {
+      background: var(--bg-card);
+      padding: 32px 24px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      transition: background 0.3s ease;
+    }
+    .stat-item:hover {
+      background: var(--bg-card-hover);
+    }
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 4px;
+    }
+    .stat-item:nth-child(1) .stat-number { color: var(--accent-blue); }
+    .stat-item:nth-child(2) .stat-number { color: var(--accent-violet); }
+    .stat-item:nth-child(3) .stat-number { color: var(--accent-emerald); }
+    .stat-item:nth-child(4) .stat-number { color: var(--accent-cyan); }
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* ── Section Titles ── */
+    .section-title {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+    .section-label {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent-blue);
+      margin-bottom: 14px;
+    }
+    .section-title h2 {
+      font-size: 2.4rem;
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 14px;
+    }
+    .section-title p {
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+      max-width: 550px;
+      margin: 0 auto;
+    }
+
+    /* ── Features Grid ── */
+    .features { padding: 60px 0 80px; }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      backdrop-filter: blur(10px);
+      transition: all 0.35s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--card-accent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .feature-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(148, 163, 184, 0.2);
+      box-shadow: var(--shadow-glow);
+    }
+    .feature-card:hover::before { opacity: 1; }
+    .feature-icon {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+    }
+    .feature-card h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      letter-spacing: -0.3px;
+    }
+    .feature-card p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.65;
+    }
+
+    /* ── API Routes Section ── */
+    .api-section { padding: 60px 0 80px; }
+    .api-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    .api-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 22px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+    }
+    .api-card:hover {
+      background: var(--bg-card-hover);
+      transform: translateX(4px);
+      border-color: rgba(148, 163, 184, 0.2);
+    }
+    .api-method {
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      flex-shrink: 0;
+    }
+    .method-get { background: rgba(16, 185, 129, 0.15); color: var(--accent-emerald); }
+    .method-post { background: rgba(59, 130, 246, 0.15); color: var(--accent-blue); }
+    .method-put { background: rgba(245, 158, 11, 0.15); color: var(--accent-amber); }
+    .method-delete { background: rgba(244, 63, 94, 0.15); color: var(--accent-rose); }
+    .api-info h4 {
+      font-size: 0.92rem;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    .api-info p {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+
+    /* ── Tech Stack ── */
+    .tech-section { padding: 60px 0 80px; }
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .tech-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 24px 20px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+    }
+    .tech-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(148, 163, 184, 0.2);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    .tech-card .tech-emoji {
+      font-size: 2rem;
+      margin-bottom: 12px;
+      display: block;
+    }
+    .tech-card h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .tech-card p {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+    }
+
+    /* ── CTA Section ── */
+    .cta-section {
+      padding: 80px 0;
+      text-align: center;
+    }
+    .cta-box {
+      background: linear-gradient(135deg, rgba(59,130,246,0.1), rgba(139,92,246,0.1));
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      border-radius: 24px;
+      padding: 64px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-box::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 70%);
+      animation: rotateBg 30s linear infinite;
+    }
+    @keyframes rotateBg {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .cta-box > * { position: relative; z-index: 1; }
+    .cta-box h2 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 14px;
+      letter-spacing: -1px;
+    }
+    .cta-box p {
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+      margin-bottom: 32px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .cta-box .btn-primary {
+      padding: 16px 36px;
+      font-size: 1.05rem;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      padding: 40px 0;
+      text-align: center;
+      border-top: 1px solid var(--border-subtle);
+    }
+    .footer p {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+    .footer a {
+      color: var(--accent-blue);
+      text-decoration: none;
+    }
+    .footer a:hover { text-decoration: underline; }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 16px;
+      list-style: none;
+    }
+    .footer-links a {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--text-primary); }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .features-grid, .tech-grid { grid-template-columns: repeat(2, 1fr); }
+      .api-grid { grid-template-columns: 1fr; }
+      .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .features-grid, .tech-grid, .stats-strip { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 2.2rem; }
+      .navbar .nav-links { display: none; }
+      .cta-box { padding: 40px 24px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated background orbs -->
+  <div class="bg-animation">
+    <div class="orb"></div>
+    <div class="orb"></div>
+    <div class="orb"></div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="/" class="logo">
+        <span class="logo-icon">🤖</span>
+        <span>SkillMatch AI</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#api-routes">APIs</a></li>
+        <li><a href="#tech-stack">Tech Stack</a></li>
+        <li><a href="/api-docs" class="nav-btn">API Docs →</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        Server Online — v1.0.0
+      </div>
+      <h1>
+        <span class="gradient-text">SkillMatch AI</span><br />
+        Backend API Server
+      </h1>
+      <p class="hero-subtitle">
+        AI-powered recruitment platform that automates resume screening,
+        candidate-job matching, and shortlisting. Built with Node.js, Express,
+        MongoDB & OpenAI GPT-4o.
+      </p>
+      <div class="hero-actions">
+        <a href="/api-docs" class="btn btn-primary" id="explore-api-docs">
+          📄 Explore API Docs
+        </a>
+        <a href="https://github.com/Ashukr321/skillmatch-ai" target="_blank" class="btn btn-secondary">
+          ⭐ GitHub Repo
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Strip -->
+  <div class="container">
+    <div class="stats-strip">
+      <div class="stat-item">
+        <div class="stat-number">~55</div>
+        <div class="stat-label">API Endpoints</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">12</div>
+        <div class="stat-label">Data Models</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">10</div>
+        <div class="stat-label">Modules</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">7</div>
+        <div class="stat-label">Dev Phases</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Features Section -->
+  <section class="features" id="features">
+    <div class="container">
+      <div class="section-title">
+        <span class="section-label">Core Features</span>
+        <h2>Intelligent Recruitment Engine</h2>
+        <p>End-to-end AI-driven hiring pipeline for job seekers and recruiters</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card" style="--card-accent: var(--accent-blue);">
+          <div class="feature-icon" style="background: rgba(59,130,246,0.12);">🧠</div>
+          <h3>AI Resume Screening</h3>
+          <p>GPT-4o powered analysis extracts skills, experience, and generates relevance scores automatically from uploaded resumes.</p>
+        </div>
+        <div class="feature-card" style="--card-accent: var(--accent-violet);">
+          <div class="feature-icon" style="background: rgba(139,92,246,0.12);">🎯</div>
+          <h3>Smart Job Matching</h3>
+          <p>AI-driven scoring engine ranks candidates against job requirements using weighted skill, experience, and semantic matching.</p>
+        </div>
+        <div class="feature-card" style="--card-accent: var(--accent-emerald);">
+          <div class="feature-icon" style="background: rgba(16,185,129,0.12);">📊</div>
+          <h3>Recruiter Dashboard</h3>
+          <p>Full applicant pipeline with bulk operations, shortlisting, notes, CSV export, and per-job analytics for recruiters.</p>
+        </div>
+        <div class="feature-card" style="--card-accent: var(--accent-cyan);">
+          <div class="feature-icon" style="background: rgba(6,182,212,0.12);">👤</div>
+          <h3>Job Seeker Portal</h3>
+          <p>Complete profile management with skills, education, experience, resume upload, job browsing, and application tracking.</p>
+        </div>
+        <div class="feature-card" style="--card-accent: var(--accent-amber);">
+          <div class="feature-icon" style="background: rgba(245,158,11,0.12);">🔔</div>
+          <h3>Real-time Notifications</h3>
+          <p>In-app notification system alerting users about application updates, shortlisting, and new job recommendations.</p>
+        </div>
+        <div class="feature-card" style="--card-accent: var(--accent-rose);">
+          <div class="feature-icon" style="background: rgba(244,63,94,0.12);">🔐</div>
+          <h3>Secure Authentication</h3>
+          <p>JWT-based auth with role guards (user, recruiter, admin), refresh tokens, and production-grade middleware stack.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- API Routes Section -->
+  <section class="api-section" id="api-routes">
+    <div class="container">
+      <div class="section-title">
+        <span class="section-label">REST API</span>
+        <h2>API Route Overview</h2>
+        <p>Key endpoints powering the SkillMatch AI platform</p>
+      </div>
+      <div class="api-grid">
+        <div class="api-card">
+          <span class="api-method method-post">POST</span>
+          <div class="api-info">
+            <h4>/api/v1/auth/signup</h4>
+            <p>Register new user or recruiter</p>
+          </div>
+        </div>
+        <div class="api-card">
+          <span class="api-method method-post">POST</span>
+          <div class="api-info">
+            <h4>/api/v1/auth/login</h4>
+            <p>Authenticate & get JWT tokens</p>
+          </div>
+        </div>
+        <div class="api-card">
+          <span class="api-method method-get">GET</span>
+          <div class="api-info">
+            <h4>/api/v1/user/profile</h4>
+            <p>Retrieve candidate profile</p>
+          </div>
+        </div>
+        <div class="api-card">
+          <span class="api-method method-post">POST</span>
+          <div class="api-info">
+            <h4>/api/v1/user/resumes</h4>
+            <p>Upload resume → triggers AI parsing</p>
+          </div>
+        </div>
+        <div class="api-card">
+          <span class="api-method method-get">GET</span>
+          <div class="api-info">
+            <h4>/api/v1/jobs</h4>
+            <p>Browse active jobs with filters</p>
+          </div>
+        </div>
+        <div class="api-card">
+          <span class="api-method method-post">POST</span>
+          <div class="api-info">
+            <h4>/api/v1/recruiter/jobs</h4>
+            <p>Create new job posting</p>
+          </div>
+        </div>
+        <div class="api-card">
+          <span class="api-method method-get">GET</span>
+          <div class="api-info">
+            <h4>/api/v1/user/recommended-jobs</h4>
+            <p>AI-powered job recommendations</p>
+          </div>
+        </div>
+        <div class="api-card">
+          <span class="api-method method-get">GET</span>
+          <div class="api-info">
+            <h4>/api/v1/admin/dashboard</h4>
+            <p>Platform-wide analytics & stats</p>
+          </div>
+        </div>
+      </div>
+      <div style="text-align: center; margin-top: 36px;">
+        <a href="/api-docs" class="btn btn-primary" id="view-all-apis">
+          View All 55+ APIs in Swagger →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tech Stack Section -->
+  <section class="tech-section" id="tech-stack">
+    <div class="container">
+      <div class="section-title">
+        <span class="section-label">Tech Stack</span>
+        <h2>Built With Modern Tools</h2>
+        <p>Production-grade technologies powering every layer</p>
+      </div>
+      <div class="tech-grid">
+        <div class="tech-card">
+          <span class="tech-emoji">🟢</span>
+          <h4>Node.js</h4>
+          <p>Runtime</p>
+        </div>
+        <div class="tech-card">
+          <span class="tech-emoji">⚡</span>
+          <h4>Express.js v5</h4>
+          <p>Web Framework</p>
+        </div>
+        <div class="tech-card">
+          <span class="tech-emoji">🍃</span>
+          <h4>MongoDB</h4>
+          <p>Database + Mongoose</p>
+        </div>
+        <div class="tech-card">
+          <span class="tech-emoji">🤖</span>
+          <h4>OpenAI GPT-4o</h4>
+          <p>AI Engine</p>
+        </div>
+        <div class="tech-card">
+          <span class="tech-emoji">🔑</span>
+          <h4>JWT + bcrypt</h4>
+          <p>Authentication</p>
+        </div>
+        <div class="tech-card">
+          <span class="tech-emoji">📋</span>
+          <h4>Swagger</h4>
+          <p>API Documentation</p>
+        </div>
+        <div class="tech-card">
+          <span class="tech-emoji">☁️</span>
+          <h4>Cloudinary</h4>
+          <p>File Storage</p>
+        </div>
+        <div class="tech-card">
+          <span class="tech-emoji">🐳</span>
+          <h4>Docker</h4>
+          <p>Containerization</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-box">
+        <h2>Ready to explore the API?</h2>
+        <p>Dive into the interactive Swagger documentation to test every endpoint live.</p>
+        <a href="/api-docs" class="btn btn-primary" id="cta-api-docs">
+          🚀 Open Swagger API Docs
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <ul class="footer-links">
+        <li><a href="/api-docs">API Docs</a></li>
+        <li><a href="https://github.com/Ashukr321/skillmatch-ai" target="_blank">GitHub</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#tech-stack">Tech Stack</a></li>
+      </ul>
+      <p>© 2026 <strong>SkillMatch AI</strong> — AI-Powered Recruitment Platform. Built with ❤️</p>
+    </div>
+  </footer>
+
+  <script>
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Navbar shadow on scroll
+    window.addEventListener('scroll', () => {
+      const nav = document.querySelector('.navbar');
+      if (window.scrollY > 20) {
+        nav.style.boxShadow = '0 4px 30px rgba(0,0,0,0.4)';
+      } else {
+        nav.style.boxShadow = 'none';
+      }
+    });
+
+    // Animate cards on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.feature-card, .api-card, .tech-card, .stat-item').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'all 0.5s ease';
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>

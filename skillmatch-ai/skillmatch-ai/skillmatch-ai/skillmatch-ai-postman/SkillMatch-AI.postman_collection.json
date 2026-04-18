@@ -1,0 +1,772 @@
+{
+	"info": {
+		"_postman_id": "skillmatch-ai-collection",
+		"name": "SkillMatch AI — API Test Collection",
+		"description": "Complete API test collection for SkillMatch AI platform. All endpoints organized module-wise with sample test data.\n\nBase URL: {{baseUrl}} (default: http://localhost:8080)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "authToken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "userId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "candidateProfileId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "recruiterProfileId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "jobId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "resumeId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "applicationId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "notificationId",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "🔐 Auth",
+			"description": "Authentication endpoints — signup, login, and logout",
+			"item": [
+				{
+					"name": "Signup — Candidate",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Ashutosh Kumar\",\n  \"email\": \"ashutosh@example.com\",\n  \"password\": \"SecurePass123\",\n  \"role\": \"user\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/auth/signup",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "auth", "signup"]
+						},
+						"description": "Register a new candidate (user role)"
+					},
+					"response": []
+				},
+				{
+					"name": "Signup — Recruiter",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Jane Doe\",\n  \"email\": \"jane@techcorp.com\",\n  \"password\": \"SecurePass123\",\n  \"role\": \"recruiter\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/auth/signup",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "auth", "signup"]
+						},
+						"description": "Register a new recruiter"
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const res = pm.response.json();",
+									"if (res.token) {",
+									"    pm.collectionVariables.set('authToken', res.token);",
+									"}",
+									"if (res.data && res.data._id) {",
+									"    pm.collectionVariables.set('userId', res.data._id);",
+									"}",
+									"if (res.user && res.user._id) {",
+									"    pm.collectionVariables.set('userId', res.user._id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"ashutosh@example.com\",\n  \"password\": \"SecurePass123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/auth/login",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "auth", "login"]
+						},
+						"description": "Login and auto-save token + userId to collection variables"
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/auth/logout",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "auth", "logout"]
+						},
+						"description": "Logout the current user"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "👥 Users",
+			"description": "User management endpoints",
+			"item": [
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/users",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "users"]
+						},
+						"description": "Retrieve all registered users"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "👤 Candidate Profile",
+			"description": "Candidate profile CRUD operations",
+			"item": [
+				{
+					"name": "Create Candidate Profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const res = pm.response.json();",
+									"if (res.data && res.data._id) {",
+									"    pm.collectionVariables.set('candidateProfileId', res.data._id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user\": \"{{userId}}\",\n  \"headline\": \"Frontend Developer | React | Node.js\",\n  \"summary\": \"Passionate developer with 3 years of experience in building modern web applications.\",\n  \"location\": {\n    \"city\": \"Bangalore\",\n    \"country\": \"India\"\n  },\n  \"phone\": \"+91 9876543210\",\n  \"linkedinUrl\": \"https://linkedin.com/in/ashutosh\",\n  \"githubUrl\": \"https://github.com/ashutosh\",\n  \"yearsOfExperience\": 3,\n  \"expectedSalary\": 120000,\n  \"noticePeriod\": 30\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/candidate-profile",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "candidate-profile"]
+						},
+						"description": "Create a new candidate profile (auto-saves profileId)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Candidate Profile by User ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/candidate-profile/{{userId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "candidate-profile", "{{userId}}"]
+						},
+						"description": "Get candidate profile by user ID"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "🏢 Recruiter Profile",
+			"description": "Recruiter profile CRUD operations",
+			"item": [
+				{
+					"name": "Create Recruiter Profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const res = pm.response.json();",
+									"if (res.data && res.data._id) {",
+									"    pm.collectionVariables.set('recruiterProfileId', res.data._id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user\": \"{{userId}}\",\n  \"companyName\": \"TechCorp Solutions\",\n  \"companySize\": \"51-200\",\n  \"industry\": \"Information Technology\",\n  \"companyWebsite\": \"https://techcorp.com\",\n  \"location\": \"San Francisco, USA\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/recruiter-profile",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "recruiter-profile"]
+						},
+						"description": "Create a new recruiter profile (auto-saves profileId)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Recruiter Profile by User ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/recruiter-profile/{{userId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "recruiter-profile", "{{userId}}"]
+						},
+						"description": "Get recruiter profile by user ID"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "🛠️ Candidate Skills",
+			"description": "Manage candidate skills",
+			"item": [
+				{
+					"name": "Add Candidate Skill",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"candidateProfile\": \"{{candidateProfileId}}\",\n  \"skillName\": \"javascript\",\n  \"proficiencyLevel\": \"expert\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/candidate-skill",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "candidate-skill"]
+						},
+						"description": "Add a skill to a candidate profile"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Skills by Profile ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/candidate-skill/profile/{{candidateProfileId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "candidate-skill", "profile", "{{candidateProfileId}}"]
+						},
+						"description": "Get all skills for a candidate profile"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "🎓 Candidate Education",
+			"description": "Manage candidate education records",
+			"item": [
+				{
+					"name": "Add Education",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"candidateProfile\": \"{{candidateProfileId}}\",\n  \"degree\": \"B.Tech\",\n  \"institution\": \"IIT Delhi\",\n  \"fieldOfStudy\": \"Computer Science\",\n  \"startYear\": 2018,\n  \"endYear\": 2022,\n  \"grade\": \"9.0 CGPA\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/candidate-education",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "candidate-education"]
+						},
+						"description": "Add education record to a candidate profile"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Education by Profile ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/candidate-education/profile/{{candidateProfileId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "candidate-education", "profile", "{{candidateProfileId}}"]
+						},
+						"description": "Get all education records for a candidate profile"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "💼 Candidate Experience",
+			"description": "Manage candidate work experience",
+			"item": [
+				{
+					"name": "Add Experience",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"candidateProfile\": \"{{candidateProfileId}}\",\n  \"company\": \"Google\",\n  \"title\": \"Software Engineer\",\n  \"location\": \"Bangalore, India\",\n  \"startDate\": \"2022-07-01\",\n  \"endDate\": \"2024-12-31\",\n  \"isCurrent\": false,\n  \"description\": \"Worked on Google Cloud Platform, building scalable microservices.\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/candidate-experience",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "candidate-experience"]
+						},
+						"description": "Add work experience to a candidate profile"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Experience by Profile ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/candidate-experience/profile/{{candidateProfileId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "candidate-experience", "profile", "{{candidateProfileId}}"]
+						},
+						"description": "Get all experience records for a candidate profile"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "📄 Resume",
+			"description": "Resume upload and retrieval",
+			"item": [
+				{
+					"name": "Upload Resume",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const res = pm.response.json();",
+									"if (res.data && res.data._id) {",
+									"    pm.collectionVariables.set('resumeId', res.data._id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user\": \"{{userId}}\",\n  \"filename\": \"Ashutosh_Resume.pdf\",\n  \"fileUrl\": \"https://res.cloudinary.com/skillmatch/ashutosh_resume.pdf\",\n  \"fileSize\": 102456,\n  \"fileType\": \"pdf\",\n  \"isPrimary\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/resume",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "resume"]
+						},
+						"description": "Register an uploaded resume (auto-saves resumeId)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Resumes by User ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/resume/user/{{userId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "resume", "user", "{{userId}}"]
+						},
+						"description": "Get all resumes for a user"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "💻 Jobs",
+			"description": "Job posting and retrieval",
+			"item": [
+				{
+					"name": "Create Job Posting",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const res = pm.response.json();",
+									"if (res.data && res.data._id) {",
+									"    pm.collectionVariables.set('jobId', res.data._id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"recruiterId\": \"{{userId}}\",\n  \"title\": \"Senior React Developer\",\n  \"description\": \"We are looking for a skilled React developer to join our core team.\",\n  \"requiredSkills\": [\"javascript\", \"react\", \"redux\", \"node.js\"],\n  \"location\": \"Remote\",\n  \"jobType\": \"full-time\",\n  \"experienceLevel\": \"senior\",\n  \"salaryMin\": 150000,\n  \"salaryMax\": 250000,\n  \"status\": \"active\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/job",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "job"]
+						},
+						"description": "Create a new job posting (auto-saves jobId)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Jobs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/job",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "job"]
+						},
+						"description": "Get all job postings"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "📥 Applications",
+			"description": "Job application management",
+			"item": [
+				{
+					"name": "Apply for Job",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const res = pm.response.json();",
+									"if (res.data && res.data._id) {",
+									"    pm.collectionVariables.set('applicationId', res.data._id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user\": \"{{userId}}\",\n  \"job\": \"{{jobId}}\",\n  \"resume\": \"{{resumeId}}\",\n  \"coverLetter\": \"I am excited to apply for the Senior React Developer position.\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/application",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "application"]
+						},
+						"description": "Apply for a job (auto-saves applicationId)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Applications by Job ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/application/job/{{jobId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "application", "job", "{{jobId}}"]
+						},
+						"description": "Get all applications for a specific job"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "🔔 Notifications",
+			"description": "User notification management",
+			"item": [
+				{
+					"name": "Get Notifications by User ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/notification/user/{{userId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "notification", "user", "{{userId}}"]
+						},
+						"description": "Get all notifications for a user"
+					},
+					"response": []
+				},
+				{
+					"name": "Mark Notification as Read",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/notification/{{notificationId}}/read",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "notification", "{{notificationId}}", "read"]
+						},
+						"description": "Mark a specific notification as read"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "🔍 Skills Search",
+			"description": "Search available skills",
+			"item": [
+				{
+					"name": "Search Skills",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/skill/search?q=javascript",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "skill", "search"],
+							"query": [
+								{
+									"key": "q",
+									"value": "javascript",
+									"description": "Search query for skills"
+								}
+							]
+						},
+						"description": "Search for skills by keyword"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "🤖 AI Usage Logs",
+			"description": "AI feature usage tracking",
+			"item": [
+				{
+					"name": "Get AI Usage Logs",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/ai-usage-log",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "ai-usage-log"]
+						},
+						"description": "Get all AI usage logs"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,1155 @@
+@use "../../assets/css/global.styles.scss" as *;
+
+.dashboard {
+  padding: 24px;
+  max-width: 1200px;
+}
+
+.header {
+  margin-bottom: 32px;
+  
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: $color-text;
+    margin: 0 0 8px 0;
+  }
+  
+  p {
+    color: $color-text-secondary;
+    margin: 0;
+  }
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-bottom: 32px;
+  
+  @media (max-width: $breakpoint-lg) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  @media (max-width: $breakpoint-sm) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.statCard {
+  background: $color-surface-elevated;
+  border: 1px solid $color-border;
+  border-radius: 12px;
+  padding: 20px;
+  
+  h3 {
+    font-size: 32px;
+    font-weight: 700;
+    color: $color-primary;
+    margin: 0 0 8px 0;
+  }
+}
+
+.statLabel {
+  color: $color-text;
+  font-weight: 500;
+  margin: 0 0 4px 0;
+}
+
+.statChange {
+  font-size: 13px;
+  color: $color-secondary;
+}
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  
+  @media (max-width: $breakpoint-md) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.activitySection,
+.recommendedSection {
+  background: $color-surface-elevated;
+  border: 1px solid $color-border;
+  border-radius: 12px;
+  padding: 20px;
+  
+  h2 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 16px 0;
+    color: $color-text;
+  }
+}
+
+.activityList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.activityItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.activityDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-top: 6px;
+  flex-shrink: 0;
+  background: $color-muted;
+  
+  &[data-type="application"] {
+    background: $color-primary;
+  }
+  &[data-type="view"] {
+    background: $color-secondary;
+  }
+  &[data-type="interview"] {
+    background: #22c55e;
+  }
+  &[data-type="saved"] {
+    background: $color-accent;
+  }
+}
+
+.activityContent {
+  p {
+    margin: 0 0 4px 0;
+    color: $color-text;
+    font-size: 14px;
+  }
+  
+  span {
+    font-size: 12px;
+    color: $color-muted;
+  }
+}
+
+.jobsList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.jobCard {
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: 8px;
+  padding: 16px;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+  
+  &:hover {
+    border-color: $color-primary;
+  }
+  
+  h4 {
+    margin: 0 0 4px 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: $color-text;
+  }
+}
+
+.company {
+  color: $color-text-secondary;
+  font-size: 14px;
+  margin: 0 0 12px 0;
+}
+
+.jobMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: $color-muted;
+}
+
+.salary {
+  color: $color-secondary;
+  font-weight: 500;
+}
+
+// ─── Profile Page Styles ─────────────────────────────
+.profilePage {
+  padding: 24px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.profileHeader {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 32px;
+  background: $color-surface-elevated;
+  padding: 24px;
+  border-radius: 16px;
+  border: 1px solid $color-border;
+
+  .avatarContainer {
+    position: relative;
+    
+    .avatarLarge {
+      width: 100px;
+      height: 100px;
+      background: $color-primary;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      font-weight: 700;
+      overflow: hidden;
+      border: 2px solid $color-border;
+
+      .avatarImg {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .avatarUploadLabel {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 32px;
+      height: 32px;
+      background: $color-primary;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: 2px solid $color-surface-elevated;
+      transition: all 0.2s;
+
+      &:hover {
+        transform: scale(1.1);
+        background: $color-primary-hover;
+      }
+
+      .hiddenInput {
+        display: none;
+      }
+    }
+  }
+
+  .headerInfo {
+    flex: 1;
+    h1 { margin: 0 0 4px 0; font-size: 1.8rem; }
+    p { margin: 0 0 12px 0; color: $color-text-secondary; }
+  }
+}
+
+.completionBar {
+  width: 100%;
+  max-width: 300px;
+  height: 8px;
+  background: $color-bg;
+  border-radius: 4px;
+  position: relative;
+  margin-top: 8px;
+
+  .progress {
+    height: 100%;
+    background: $color-secondary;
+    border-radius: 4px;
+    transition: width 0.5s ease;
+  }
+
+  span {
+    position: absolute;
+    right: 0;
+    top: -20px;
+    font-size: 0.75rem;
+    color: $color-text-secondary;
+  }
+}
+
+.profileTabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid $color-border;
+  padding-bottom: 1px;
+
+  button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: $color-text-secondary;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover { color: $color-primary; }
+    &.activeTab {
+      color: $color-primary;
+      border-bottom-color: $color-primary;
+    }
+  }
+}
+
+.profileForm {
+  background: $color-surface-elevated;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid $color-border;
+
+  .formGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+
+  .formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+
+    label { font-size: 0.9rem; font-weight: 500; color: $color-text; }
+    input, textarea {
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid $color-border;
+      background: $color-bg;
+      color: $color-text;
+      outline: none;
+      &:focus { border-color: $color-primary; }
+    }
+  }
+
+  .saveBtn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: $color-primary;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 12px;
+    &:hover { opacity: 0.9; }
+  }
+}
+
+.entityList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.entityCard {
+  background: $color-surface-elevated;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid $color-border;
+  h4 { margin: 0 0 4px 0; color: $color-text; }
+  p { margin: 0 0 8px 0; color: $color-text-secondary; font-size: 0.9rem; }
+  span { font-size: 0.8rem; color: $color-muted; }
+}
+
+.addBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px;
+  background: transparent;
+  border: 2px dashed $color-border;
+  border-radius: 12px;
+  color: $color-text-secondary;
+  cursor: pointer;
+  width: 100%;
+  &:hover { border-color: $color-primary; color: $color-primary; }
+}
+
+.skillsGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.skillTag {
+  padding: 8px 16px;
+  background: $color-bg;
+  border: 1px solid $color-border;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  color: $color-text;
+  span { color: $color-primary; font-size: 0.8rem; font-weight: 600; margin-left: 4px; }
+}
+
+.loading {
+  padding: 40px;
+  text-align: center;
+  color: $color-muted;
+}
+
+// ─── Job Explorer Styles ─────────────────────────────
+.jobsPage {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.jobsHeader {
+  margin-bottom: 40px;
+  text-align: center;
+
+  .titleSection {
+    margin-bottom: 32px;
+    h1 { font-size: 2.5rem; font-weight: 800; color: $color-text; margin-bottom: 8px; }
+    p { color: $color-text-secondary; font-size: 1.1rem; }
+  }
+}
+
+.searchSection {
+  max-width: 800px;
+  margin: 0 auto;
+  background: $color-surface-elevated;
+  padding: 24px;
+  border-radius: 20px;
+  border: 1px solid $color-border;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.searchBarLarge {
+  display: flex;
+  align-items: center;
+  background: $color-bg;
+  border: 1.5px solid $color-border;
+  border-radius: 12px;
+  padding: 0 20px;
+  margin-bottom: 16px;
+  transition: all 0.2s;
+
+  &:focus-within {
+    border-color: $color-primary;
+    box-shadow: 0 0 0 4px rgba($color-primary, 0.1);
+  }
+
+  .searchIcon { font-size: 1.5rem; color: $color-muted; margin-right: 12px; }
+  input {
+    flex: 1;
+    height: 54px;
+    background: transparent;
+    border: none;
+    color: $color-text;
+    outline: none;
+    font-size: 1.05rem;
+    &::placeholder { color: $color-muted; }
+  }
+}
+
+.filterRow {
+  display: flex;
+  gap: 12px;
+  
+  @media (max-width: $breakpoint-sm) {
+    flex-direction: column;
+  }
+}
+
+.filterItem {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: $color-bg;
+  border: 1.5px solid $color-border;
+  border-radius: 10px;
+  padding: 0 16px;
+  height: 48px;
+  color: $color-text-secondary;
+
+  svg { font-size: 1.2rem; color: $color-primary; }
+  select {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: $color-text;
+    outline: none;
+    font-weight: 500;
+    cursor: pointer;
+
+    option {
+      background: $color-surface-elevated;
+      color: $color-text;
+    }
+  }
+}
+
+.jobExplorerCard {
+  background: $color-surface-elevated;
+  border: 1px solid $color-border;
+  border-radius: 20px;
+  padding: 24px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &:hover {
+    transform: translateY(-5px);
+    border-color: $color-primary;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.cardTop {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+
+  .companyLogo {
+    width: 56px;
+    height: 56px;
+    background: $color-bg;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid $color-border;
+    overflow: hidden;
+    flex-shrink: 0;
+    
+    img { width: 100%; height: 100%; object-fit: contain; padding: 4px; }
+    svg { font-size: 2rem; color: $color-muted; }
+  }
+
+  .mainInfo {
+    flex: 1;
+    h3 { margin: 0 0 4px 0; font-size: 1.2rem; color: $color-text; }
+    .companyName { color: $color-primary; font-weight: 600; font-size: 0.95rem; }
+  }
+
+  .jobTypeBadge {
+    padding: 4px 12px;
+    background: rgba($color-primary, 0.1);
+    color: $color-primary;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+}
+
+.cardMid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.infoPill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: $color-text-secondary;
+  svg { color: $color-primary; }
+}
+
+.skillsRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.skillTag {
+  padding: 4px 12px;
+  background: $color-bg;
+  border: 1px solid $color-border;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  color: $color-text-secondary;
+}
+
+.moreSkills {
+  font-size: 0.8rem;
+  color: $color-muted;
+  align-self: center;
+}
+
+.cardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid $color-border;
+
+  .postedOn { font-size: 0.8rem; color: $color-muted; }
+}
+
+.exploreApplyBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: $color-primary;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  &:hover { background: $color-primary-hover; gap: 12px; }
+}
+
+.jobsListGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 24px;
+  
+  @media (max-width: $breakpoint-sm) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.loadingState {
+  padding: 80px 0;
+  text-align: center;
+  color: $color-muted;
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba($color-primary, 0.1);
+    border-top-color: $color-primary;
+    border-radius: 50%;
+    margin: 0 auto 16px;
+    animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.noResults {
+  text-align: center;
+  padding: 80px 20px;
+  background: $color-surface-elevated;
+  border-radius: 20px;
+  border: 1px solid $color-border;
+  
+  svg { font-size: 4rem; color: $color-muted; margin-bottom: 20px; }
+  h3 { margin-bottom: 8px; color: $color-text; }
+  p { color: $color-text-secondary; margin-bottom: 24px; }
+  
+  button {
+    padding: 10px 24px;
+    background: transparent;
+    border: 1.5px solid $color-primary;
+    color: $color-primary;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    &:hover { background: $color-primary; color: white; }
+  }
+}
+
+// ─── My Applications Styles ─────────────────────────────
+.appsHeader {
+  margin-bottom: 40px;
+  h1 { font-size: 2.2rem; font-weight: 800; color: $color-text; margin-bottom: 8px; }
+  p { color: $color-text-secondary; font-size: 1.1rem; }
+}
+
+.appsListGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.appModernCard {
+  background: $color-surface-elevated;
+  border: 1px solid $color-border;
+  border-radius: 20px;
+  padding: 24px;
+  transition: all 0.2s;
+  
+  &:hover {
+    border-color: $color-primary;
+    transform: translateX(5px);
+  }
+}
+
+.appCardTop {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+
+  .companyIcon {
+    width: 50px;
+    height: 50px;
+    background: rgba($color-primary, 0.1);
+    color: $color-primary;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+  }
+
+  .jobInfo {
+    flex: 1;
+    h3 { margin: 0 0 4px 0; font-size: 1.25rem; color: $color-text; }
+    .companyName { color: $color-muted; font-size: 0.95rem; margin: 0; }
+  }
+}
+
+.statusBadgeLarge {
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  
+  &[data-status="applied"] { background: rgba($color-primary, 0.1); color: $color-primary; }
+  &[data-status="screening"] { background: rgba(#3b82f6, 0.1); color: #3b82f6; }
+  &[data-status="shortlisted"] { background: rgba(#10b981, 0.1); color: #10b981; }
+  &[data-status="interview"] { background: rgba(#8b5cf6, 0.1); color: #8b5cf6; }
+  &[data-status="offered"] { background: rgba(#059669, 0.1); color: #059669; }
+  &[data-status="rejected"] { background: rgba(#ef4444, 0.1); color: #ef4444; }
+}
+
+.appCardMid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-bottom: 24px;
+  padding: 16px;
+  background: $color-bg;
+  border-radius: 12px;
+
+  .metaItem {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: $color-text-secondary;
+    svg { color: $color-primary; font-size: 1.1rem; }
+  }
+
+  .matchScore {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #f59e0b;
+    svg { font-size: 1.1rem; }
+  }
+}
+
+.appCardFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+
+  button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .viewJobBtn {
+    background: transparent;
+    border: 1px solid $color-border;
+    color: $color-text;
+    &:hover { background: $color-bg; border-color: $color-primary; color: $color-primary; }
+  }
+
+  .revokeBtn {
+    background: rgba(#ef4444, 0.1);
+    border: 1px solid rgba(#ef4444, 0.2); 
+    color: #ef4444;
+    &:hover { background: #ef4444; color: white; border-color: #ef4444; }
+  }
+}
+
+.emptyApps {
+  text-align: center;
+  padding: 80px 20px;
+  background: $color-surface-elevated;
+  border-radius: 24px;
+  border: 2px dashed $color-border;
+
+  svg { font-size: 4rem; color: $color-muted; margin-bottom: 20px; }
+  h3 { margin-bottom: 8px; color: $color-text; }
+  p { color: $color-text-secondary; margin-bottom: 32px; max-width: 400px; margin-left: auto; margin-right: auto; }
+
+  button {
+    padding: 12px 32px;
+    background: $color-primary;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    &:hover { background: $color-primary-hover; transform: translateY(-2px); }
+  }
+}
+
+// ─── Resume List Styles ─────────────────────────────
+.resumeList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.resumeCard {
+  background: $color-surface;
+  padding: 16px 20px;
+  border-radius: 12px;
+  border: 1px solid $color-border;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.2s;
+
+  &:hover {
+    border-color: $color-primary;
+  }
+
+  &.primary {
+    border-color: $color-primary;
+    background: rgba($color-primary, 0.05);
+  }
+}
+
+.resumeInfo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  .resumeIcon {
+    font-size: 2rem;
+    color: $color-primary;
+  }
+
+  .resumeName {
+    margin: 0;
+    font-weight: 600;
+    color: $color-text;
+  }
+
+  .resumeSize {
+    font-size: 0.8rem;
+    color: $color-muted;
+  }
+}
+
+.resumeActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  .actionBtn, .deleteBtn, .viewBtn, .previewBtn {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: 1px solid $color-border;
+    background: $color-surface-elevated;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: all 0.2s;
+    color: $color-text;
+    text-decoration: none;
+
+    &:hover {
+      background: $color-bg;
+      color: $color-primary;
+      border-color: $color-primary;
+    }
+  }
+
+  .viewBtn, .previewBtn {
+    color: $color-primary;
+    border-color: $color-primary;
+    &:hover {
+      background: $color-primary;
+      color: white;
+    }
+  }
+
+  .deleteBtn:hover {
+    color: #ef4444;
+    border-color: #ef4444;
+  }
+
+  .primaryBadge {
+    padding: 4px 10px;
+    background: $color-primary;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 20px;
+  }
+}
+
+// ─── Preview Modal Styles ─────────────────────────────
+.previewModal {
+  width: 90% !important;
+  max-width: 900px !important;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0 !important;
+  overflow: hidden !important;
+
+  .modalHeader {
+    padding: 16px 24px;
+    border-bottom: 1px solid $color-border;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    h3 { margin: 0; font-size: 1.2rem; }
+    
+    .headerActions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      
+      button, .iconBtn {
+        background: transparent;
+        border: none;
+        color: $color-text-secondary;
+        cursor: pointer;
+        font-size: 1.4rem;
+        display: flex;
+        align-items: center;
+        &:hover { color: $color-primary; }
+      }
+    }
+  }
+
+  .previewContainer {
+    flex: 1;
+    background: #525659; // Standard PDF viewer background
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    .pdfViewer {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .docxPreview {
+      text-align: center;
+      color: white;
+      padding: 40px;
+
+      .docxIcon {
+        font-size: 4rem;
+        margin-bottom: 20px;
+        opacity: 0.5;
+      }
+
+      p { margin-bottom: 24px; }
+
+      .downloadBtn {
+        display: inline-block;
+        padding: 12px 24px;
+        background: $color-primary;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 600;
+        &:hover { background: $color-primary-hover; }
+      }
+    }
+  }
+}
+
+// ─── Completion Bar Styles ─────────────────────────────
+.completionWrapper {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.completionBar {
+  width: 100%;
+  max-width: 300px;
+  height: 8px;
+  background: $color-bg;
+  border-radius: 4px;
+  overflow: hidden;
+
+  .progress {
+    height: 100%;
+    background: $color-secondary;
+    border-radius: 4px;
+    transition: width 0.5s ease;
+  }
+}
+
+.completionText {
+  font-size: 0.8rem;
+  color: $color-text-secondary;
+  font-weight: 500;
+}
+
+// ─── Modal Styles ─────────────────────────────
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 20px;
+}
+
+.modalContent {
+  background: $color-surface;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid $color-border;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+
+  h3 { margin: 0; font-size: 1.25rem; }
+  button {
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    color: $color-muted;
+    cursor: pointer;
+    &:hover { color: $color-text; }
+  }
+}
+
+.modalForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+
+  input, select, textarea {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid $color-border;
+    background: $color-bg;
+    color: $color-text;
+    width: 100%;
+    outline: none;
+    &:focus { border-color: $color-primary; }
+  }
+}
+
+.flexRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: $color-text-secondary;
+  cursor: pointer;
+  input { width: auto; }
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+  h4 { margin: 0; }
+}
+
+.delIcon {
+  background: transparent;
+  border: none;
+  color: $color-muted;
+  font-size: 1.2rem;
+  cursor: pointer;
+  &:hover { color: #ef4444; }
+}
+
+.expDesc {
+  margin-top: 12px;
+  font-size: 0.9rem;
+  color: $color-text-secondary;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.skillTag {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px 8px 16px;
+  background: $color-bg;
+  border: 1px solid $color-border;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  color: $color-text;
+
+  span {
+    color: $color-primary;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  button {
+    background: transparent;
+    border: none;
+    display: flex;
+    color: $color-muted;
+    cursor: pointer;
+    &:hover { color: #ef4444; }
+  }
+}
