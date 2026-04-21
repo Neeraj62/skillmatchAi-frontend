@@ -87,7 +87,39 @@ const Hero = () => {
                   <span className={styles.hero__matchRole}>Full-Stack Dev</span>
                 </div>
                 <div className={styles.hero__matchScore}>
-                  <span>98%</span>
+                  <span>92%</span>
+                  match
+                </div>
+              </div>
+              <div className={styles.hero__matchItem}>
+                <div className={styles.hero__matchAvatar}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="8" r="4" fill="currentColor" />
+                    <path d="M4 20c0-4 4-6 8-6s8 2 8 6" fill="currentColor" />
+                  </svg>
+                </div>
+                <div className={styles.hero__matchInfo}>
+                  <span className={styles.hero__matchName}>Jai Kumar</span>
+                  <span className={styles.hero__matchRole}>Frontend Dev</span>
+                </div>
+                <div className={styles.hero__matchScore}>
+                  <span>84%</span>
+                  match
+                </div>
+              </div>
+              <div className={styles.hero__matchItem}>
+                <div className={styles.hero__matchAvatar}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="8" r="4" fill="currentColor" />
+                    <path d="M4 20c0-4 4-6 8-6s8 2 8 6" fill="currentColor" />
+                  </svg>
+                </div>
+                <div className={styles.hero__matchInfo}>
+                  <span className={styles.hero__matchName}>Sumit</span>
+                  <span className={styles.hero__matchRole}>Backend Dev</span>
+                </div>
+                <div className={styles.hero__matchScore}>
+                  <span>80%</span>
                   match
                 </div>
               </div>
@@ -95,7 +127,7 @@ const Hero = () => {
                 <div className={styles.hero__analyzingBar}>
                   <div className={styles.hero__analyzingProgress} />
                 </div>
-                <span>AI analyzing more candidates...</span>
+                <span>AI analyzing 2,847 more candidates...</span>
               </div>
             </div>
           </div>
