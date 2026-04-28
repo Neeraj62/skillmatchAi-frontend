@@ -1,6 +1,6 @@
 export const USER_NAV = [
   { label: "Home", to: "/dashboard/home" },
-  { label: "Jobs", to: "/dashboard/jobs" },
+  { label: "Website Development", to: "/dashboard/jobs" },
   { label: "Applications", to: "/dashboard/applications" },
   { label: "Profile", to: "/dashboard/profile" },
 ];
@@ -14,7 +14,7 @@ export const RECRUITER_NAV = [
 
 export const USER_SIDEBAR = [
   { label: "Home", to: "/dashboard/home" },
-  { label: "Jobs", to: "/dashboard/jobs" },
+  { label: "Website Development", to: "/dashboard/jobs" },
   { label: "Applications", to: "/dashboard/applications" },
   { label: "Profile", to: "/dashboard/profile" },
 ];

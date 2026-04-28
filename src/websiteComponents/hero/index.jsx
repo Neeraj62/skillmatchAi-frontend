@@ -83,7 +83,7 @@ const Hero = () => {
                   </svg>
                 </div>
                 <div className={styles.hero__matchInfo}>
-                  <span className={styles.hero__matchName}>Neeraj Kumar</span>
+                  <span className={styles.hero__matchName}>Satyam Kumar Srivastava</span>
                   <span className={styles.hero__matchRole}>Full-Stack Dev</span>
                 </div>
                 <div className={styles.hero__matchScore}>
@@ -99,7 +99,7 @@ const Hero = () => {
                   </svg>
                 </div>
                 <div className={styles.hero__matchInfo}>
-                  <span className={styles.hero__matchName}>Jai Kumar</span>
+                  <span className={styles.hero__matchName}>Neeraj Kumar</span>
                   <span className={styles.hero__matchRole}>Frontend Dev</span>
                 </div>
                 <div className={styles.hero__matchScore}>

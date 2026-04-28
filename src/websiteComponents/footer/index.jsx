@@ -63,7 +63,7 @@ const Footer = () => {
             <div className={styles.footer__navGroup}>
               <h4>Platform</h4>
               <ul>
-                <li><Link to="/dashboard/jobs">Jobs</Link></li>
+                <li><Link to="/dashboard/jobs">Website Development</Link></li>
                 <li><a href="#about" onClick={(e) => handleSmoothScroll(e, "about")}>About</a></li>
                 <li><a href="#features" onClick={(e) => handleSmoothScroll(e, "features")}>Features</a></li>
                 <li><a href="#gallery" onClick={(e) => handleSmoothScroll(e, "gallery")}>Gallery</a></li>
@@ -75,15 +75,15 @@ const Footer = () => {
               <h4>Contact Us</h4>
               <ul className={styles.contactList}>
                 <li>
-                  <a href="https://www.bdcet.in/contact" target="_blank" rel="noopener noreferrer">
-                    Black Diamond College Road, Jharsuguda, Odisha 768201
+                  <a href="https://maps.google.com/?q=Gautam+Budh+Nagar,+Uttar+Pradesh,+201308" target="_blank" rel="noopener noreferrer">
+                    Gautam Budh Nagar, Uttar Pradesh, 201308
                   </a>
                 </li>
                 <li>
                   <a href="tel:+917906503640">+91 7906503640</a>
                 </li>
                 <li>
-                  <a href="mailto:info@bdcet.in">info@bdcet.in</a>
+                  <a href="mailto:skillmatch.career@gmail.com">skillmatch.career@gmail.com</a>
                 </li>
               </ul>
             </div>
