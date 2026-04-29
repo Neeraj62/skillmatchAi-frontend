@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import MainPage from "../websitePages/mainPage";
+import AgencyLandingPage from "../websitePages/agencyLandingPage";
 import ContactPage from "../websitePages/contactPage";
 import LoginPage from "../pages/login";
 import SignupPage from "../pages/signup";
@@ -30,7 +31,8 @@ const RoutesWithAnimation = () => {
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<MotionWrapper><MainPage /></MotionWrapper>} />
+        <Route path="/" element={<MotionWrapper><AgencyLandingPage /></MotionWrapper>} />
+        <Route path="/platform" element={<MotionWrapper><MainPage /></MotionWrapper>} />
         <Route path="/contact" element={<MotionWrapper><ContactPage /></MotionWrapper>} />
         <Route path="/login" element={<MotionWrapper><LoginPage /></MotionWrapper>} />
         <Route path="/signup" element={<MotionWrapper><SignupPage /></MotionWrapper>} />

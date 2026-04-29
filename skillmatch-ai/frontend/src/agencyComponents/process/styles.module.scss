@@ -1,0 +1,76 @@
+.process {
+  padding: 100px 20px;
+  background: #1e293b;
+  color: white;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+
+  .highlight {
+    color: #a855f7;
+  }
+}
+
+.subtitle {
+  color: #94a3b8;
+  font-size: 1.1rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 40px;
+  position: relative;
+}
+
+.step {
+  position: relative;
+  text-align: center;
+  padding: 20px;
+}
+
+.number {
+  font-size: 3rem;
+  font-weight: 900;
+  color: rgba(168, 85, 247, 0.2);
+  margin-bottom: 20px;
+  line-height: 1;
+}
+
+.stepTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: white;
+}
+
+.stepDescription {
+  color: #94a3b8;
+  line-height: 1.6;
+}
+
+.connector {
+  position: absolute;
+  top: 40px;
+  right: -20px;
+  width: 40px;
+  height: 2px;
+  background: linear-gradient(to right, #a855f7, transparent);
+  
+  @media (max-width: 968px) {
+    display: none;
+  }
+}
